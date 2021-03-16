@@ -89,7 +89,7 @@ public class RequiredIngredientDAOImpl implements RequiredIngredientDAO {
         String queryString = "UPDATE required_ingredients SET " +
                 "ingredient_id=" + requiredIngredient.getIngredientId() + ", " +
                 "ingredient_name='" + requiredIngredient.getIngredientName() + "', " +
-                "ingredient_amount=" + requiredIngredient.getIngredientAmount() +
+                "ingredient_amount=" + requiredIngredient.getIngredientAmount() + " " +
                 "WHERE id=" + requiredIngredient.getId();
         DatabaseFunctions.setDataInDatabase(queryString);
     }

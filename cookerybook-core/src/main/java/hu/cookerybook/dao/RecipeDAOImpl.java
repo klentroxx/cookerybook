@@ -85,7 +85,7 @@ public class RecipeDAOImpl implements RecipeDAO {
                 "time_to_cook=" + recipe.getTimeToCook() + ", " +
                 "servings=" + recipe.getServings() + ", " +
                 "category='" + recipe.getCategory() + "', " +
-                "created_by=" + recipe.getServings() +
+                "created_by=" + recipe.getServings() + " " +
                 "WHERE id=" + recipe.getId();
         DatabaseFunctions.setDataInDatabase(queryString);
     }

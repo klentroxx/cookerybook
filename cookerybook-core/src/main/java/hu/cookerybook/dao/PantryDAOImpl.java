@@ -88,7 +88,7 @@ public class PantryDAOImpl implements PantryDAO {
                 "user_id=" + pantryIngredient.getUserId() + ", " +
                 "ingredient_id=" + pantryIngredient.getIngredientId() + ", " +
                 "ingredient_quantity=" + pantryIngredient.getIngredientQuantity() + ", " +
-                "minimum_amount=" + pantryIngredient.getMinimumAmount() +
+                "minimum_amount=" + pantryIngredient.getMinimumAmount() + " " +
                 "WHERE id=" + pantryIngredient.getId();
         DatabaseFunctions.setDataInDatabase(queryString);
     }

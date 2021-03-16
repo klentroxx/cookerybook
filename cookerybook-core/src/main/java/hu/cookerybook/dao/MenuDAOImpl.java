@@ -78,7 +78,7 @@ public class MenuDAOImpl implements MenuDAO {
     public void updateMenu(Menu menu) {
         String queryString = "UPDATE menu SET " +
                 "name=" + menu.getName() + ", " +
-                "created_by=" + menu.getCreatedById() +
+                "created_by=" + menu.getCreatedById() + " " +
                 "WHERE id=" + menu.getId();
         DatabaseFunctions.setDataInDatabase(queryString);
     }

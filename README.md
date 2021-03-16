@@ -1,4 +1,4 @@
-#Szakácskönyv beadandó
+# Szakácskönyv beadandó
 
 A projekt indításához szükséges elemek:
 - Mindenképpen szükséges engedélyezni az annotáció feldolgozást, ugyanis az osztályok használnak annotációkat.

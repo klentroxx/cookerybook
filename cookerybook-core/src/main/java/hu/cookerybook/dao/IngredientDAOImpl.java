@@ -2,7 +2,6 @@ package hu.cookerybook.dao;
 
 import hu.cookerybook.dbconn.DatabaseFunctions;
 import hu.cookerybook.model.Ingredient;
-import hu.cookerybook.model.MenuRecipe;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

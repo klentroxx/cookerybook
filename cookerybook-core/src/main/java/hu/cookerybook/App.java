@@ -1,12 +1,4 @@
 package hu.cookerybook;
-
-import hu.cookerybook.dao.*;
-import hu.cookerybook.model.User;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-
 /**
  * Hello world!
  *

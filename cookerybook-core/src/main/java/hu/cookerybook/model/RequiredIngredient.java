@@ -3,14 +3,18 @@ package hu.cookerybook.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class RequiredIngredient {
+public class RequiredIngredient implements Serializable {
     @Getter private int id;
     @Getter @Setter private int recipeId;
     @Getter @Setter private int ingredientId;
     @Getter @Setter private String ingredientName;
     @Getter @Setter private int ingredientAmount;
+
+    public RequiredIngredient() {
+    }
 
     public RequiredIngredient(int recipeId, int ingredientId, String ingredientName, int ingredientAmount) {
         this.recipeId = recipeId;

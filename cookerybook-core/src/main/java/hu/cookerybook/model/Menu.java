@@ -3,12 +3,16 @@ package hu.cookerybook.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Menu {
+public class Menu implements Serializable {
     @Getter private int id;
     @Getter @Setter private String name;
     @Getter @Setter private int createdById;
+
+    public Menu() {
+    }
 
     public Menu(String name, int createdById) {
         this.name = name;

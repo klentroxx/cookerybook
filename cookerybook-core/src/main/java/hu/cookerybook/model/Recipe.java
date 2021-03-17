@@ -3,9 +3,10 @@ package hu.cookerybook.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Recipe {
+public class Recipe implements Serializable {
     @Getter private int id;
     @Getter @Setter private String name;
     @Getter @Setter private String photo;
@@ -15,6 +16,9 @@ public class Recipe {
     @Getter @Setter private int servings;
     @Getter @Setter private String category;
     @Getter @Setter private int createdById;
+
+    public Recipe() {
+    }
 
     public Recipe(String name, String directions, int difficulty, int timeToCook, int servings, String category, int createdById) {
         this.name = name;

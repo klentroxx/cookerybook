@@ -3,14 +3,18 @@ package hu.cookerybook.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class PantryIngredient {
+public class PantryIngredient implements Serializable {
     @Getter private int id;
     @Getter @Setter private int userId;
     @Getter @Setter private int ingredientId;
     @Getter @Setter private int ingredientQuantity;
     @Getter @Setter private float minimumAmount;
+
+    public PantryIngredient() {
+    }
 
     public PantryIngredient(int userId, int ingredientId, int ingredientQuantity) {
         this.userId = userId;

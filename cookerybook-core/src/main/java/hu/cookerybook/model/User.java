@@ -3,10 +3,11 @@ package hu.cookerybook.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-public class User {
+public class User implements Serializable {
     @Getter private int id;
     @Getter @Setter private int userRole;
     @Getter @Setter private String username;
@@ -15,6 +16,9 @@ public class User {
     @Getter @Setter private String firstName;
     @Getter @Setter private String lastName;
     @Getter private Date registerDate;
+
+    public User() {
+    }
 
     public User(int userRole, String username, String email, String password) {
         this.userRole = userRole;

@@ -6,6 +6,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>cookerybook-core</module>
+        <module>cookerybook-desktop</module>
     </modules>
     <groupId>hu.cookerybook</groupId>
     <artifactId>cookerybook</artifactId>

@@ -2,83 +2,68 @@ package hu.cookerybook.dao;
 
 import hu.cookerybook.dbconn.DatabaseFunctions;
 import hu.cookerybook.model.PantryIngredient;
+import hu.cookerybook.model.User;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import static java.lang.Float.parseFloat;
+import static java.lang.Integer.parseInt;
 
 public class PantryDAOImpl implements PantryDAO {
     @Override
     public void addPantryIngredient(PantryIngredient pantryIngredient) {
-        String queryString = "INSERT INTO pantry SET " +
-                "user_id=" + pantryIngredient.getUserId() + ", " +
-                "ingredient_id=" + pantryIngredient.getIngredientId() + ", " +
-                "ingredient_quantity=" + pantryIngredient.getIngredientQuantity() + ", " +
-                "minimum_amount=" + pantryIngredient.getMinimumAmount() + ";";
+        String queryString = "INSERT INTO pantry (user_id, ingredient_id, ingredient_quantity, minimum_amount) " +
+                "VALUES(" + pantryIngredient.getUserId() + ", " +
+                pantryIngredient.getIngredientId() + ", " +
+                pantryIngredient.getIngredientQuantity() + ", " +
+                pantryIngredient.getMinimumAmount() + ", " +
+                "'" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "', " +
+                "'" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "');";
         DatabaseFunctions.setDataInDatabase(queryString);
     }
 
     @Override
-    public void removePantryIngredient(int id) {
-        String queryString = "DELETE FROM pantry WHERE id=" + id;
+    public void removePantryIngredient(PantryIngredient pantryIngredient) {
+        String queryString = "DELETE FROM pantry WHERE id=" + pantryIngredient.getId();
         DatabaseFunctions.setDataInDatabase(queryString);
     }
 
     @Override
-    public List<PantryIngredient> getAllPantryIngredients() throws SQLException {
+    public List<PantryIngredient> getAllPantryIngredients() {
         List<PantryIngredient> result = new ArrayList<>();
         String queryString = "SELECT * FROM pantry";
-        ResultSet resultSet = DatabaseFunctions.getDataFromDatabase(queryString);
-        while (resultSet.next()) {
-            PantryIngredient pi = new PantryIngredient(
-                    resultSet.getInt(1),
-                    resultSet.getInt(2),
-                    resultSet.getInt(3),
-                    resultSet.getInt(4),
-                    resultSet.getFloat(5)
-            );
-            result.add(pi);
+        List<String[]> resultSet = DatabaseFunctions.getDataFromDatabase(queryString);
+
+        for (String[] row : resultSet) {
+            result.add(new PantryIngredient(parseInt(row[0]), parseInt(row[1]), parseInt(row[2]), parseInt(row[3]), parseFloat(row[4])));
         }
 
         return result;
     }
 
     @Override
-    public List<PantryIngredient> getPantryIngredients(int userId) throws SQLException {
+    public List<PantryIngredient> getPantryIngredients(User user) {
         List<PantryIngredient> result = new ArrayList<>();
-        String queryString = "SELECT * FROM pantry WHERE user_id=" + userId;
-        ResultSet resultSet = DatabaseFunctions.getDataFromDatabase(queryString);
-        while (resultSet.next()) {
-            PantryIngredient pi = new PantryIngredient(
-                    resultSet.getInt(1),
-                    resultSet.getInt(2),
-                    resultSet.getInt(3),
-                    resultSet.getInt(4),
-                    resultSet.getFloat(5)
-            );
-            result.add(pi);
+        String queryString = "SELECT * FROM pantry WHERE user_id=" + user.getId();
+        List<String[]> resultSet = DatabaseFunctions.getDataFromDatabase(queryString);
+
+        for (String[] row : resultSet) {
+            result.add(new PantryIngredient(parseInt(row[0]), parseInt(row[1]), parseInt(row[2]), parseInt(row[3]), parseFloat(row[4])));
         }
 
         return result;
     }
 
     @Override
-    public PantryIngredient getPantryIngredient(int id) throws SQLException {
-        PantryIngredient pi = null;
+    public PantryIngredient getPantryIngredient(int id) {
         String queryString = "SELECT * FROM pantry WHERE id=" + id;
-        ResultSet resultSet = DatabaseFunctions.getDataFromDatabase(queryString);
-        if (resultSet.next()) {
-            pi = new PantryIngredient(
-                    resultSet.getInt(1),
-                    resultSet.getInt(2),
-                    resultSet.getInt(3),
-                    resultSet.getInt(4),
-                    resultSet.getFloat(5)
-            );
-        }
+        List<String[]> resultSet = DatabaseFunctions.getDataFromDatabase(queryString);
+        String[] row = resultSet.get(0);
 
-        return pi;
+        return new PantryIngredient(parseInt(row[0]), parseInt(row[1]), parseInt(row[2]), parseInt(row[3]), parseFloat(row[4]));
     }
 
     @Override
@@ -88,6 +73,7 @@ public class PantryDAOImpl implements PantryDAO {
                 "ingredient_id=" + pantryIngredient.getIngredientId() + ", " +
                 "ingredient_quantity=" + pantryIngredient.getIngredientQuantity() + ", " +
                 "minimum_amount=" + pantryIngredient.getMinimumAmount() + " " +
+                "updated_at='" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "' " +
                 "WHERE id=" + pantryIngredient.getId();
         DatabaseFunctions.setDataInDatabase(queryString);
     }

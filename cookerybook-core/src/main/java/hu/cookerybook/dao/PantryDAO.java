@@ -1,21 +1,21 @@
 package hu.cookerybook.dao;
 
 import hu.cookerybook.model.PantryIngredient;
+import hu.cookerybook.model.User;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface PantryDAO {
 
     void addPantryIngredient(PantryIngredient pantryIngredient);
 
-    void removePantryIngredient(int id);
+    void removePantryIngredient(PantryIngredient pantryIngredient);
 
-    List<PantryIngredient> getAllPantryIngredients() throws SQLException;
+    List<PantryIngredient> getAllPantryIngredients();
 
-    List<PantryIngredient> getPantryIngredients(int userId) throws SQLException;
+    List<PantryIngredient> getPantryIngredients(User user);
 
-    PantryIngredient getPantryIngredient(int id) throws SQLException;
+    PantryIngredient getPantryIngredient(int id);
 
     void updatePantryIngredient(PantryIngredient pantryIngredient);
 

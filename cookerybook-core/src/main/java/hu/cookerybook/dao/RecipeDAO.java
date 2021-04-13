@@ -2,18 +2,17 @@ package hu.cookerybook.dao;
 
 import hu.cookerybook.model.Recipe;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface RecipeDAO {
 
     void addRecipe(Recipe recipe);
 
-    void removeRecipe(int id);
+    void removeRecipe(Recipe recipe);
 
-    List<Recipe> getAllRecipes() throws SQLException;
+    List<Recipe> getAllRecipes();
 
-    Recipe getRecipe(int id) throws SQLException;
+    Recipe getRecipe(int id);
 
     void updateRecipe(Recipe recipe);
 

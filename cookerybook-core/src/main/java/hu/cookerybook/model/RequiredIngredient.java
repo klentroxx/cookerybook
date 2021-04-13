@@ -10,24 +10,21 @@ public class RequiredIngredient implements Serializable {
     @Getter private int id;
     @Getter @Setter private int recipeId;
     @Getter @Setter private int ingredientId;
-    @Getter @Setter private String ingredientName;
-    @Getter @Setter private int ingredientAmount;
+    @Getter @Setter private float ingredientAmount;
 
     public RequiredIngredient() {
     }
 
-    public RequiredIngredient(int recipeId, int ingredientId, String ingredientName, int ingredientAmount) {
+    public RequiredIngredient(int recipeId, int ingredientId, float ingredientAmount) {
         this.recipeId = recipeId;
         this.ingredientId = ingredientId;
-        this.ingredientName = ingredientName;
         this.ingredientAmount = ingredientAmount;
     }
 
-    public RequiredIngredient(int id, int recipeId, int ingredientId, String ingredientName, int ingredientAmount) {
+    public RequiredIngredient(int id, int recipeId, int ingredientId, float ingredientAmount) {
         this.id = id;
         this.recipeId = recipeId;
         this.ingredientId = ingredientId;
-        this.ingredientName = ingredientName;
         this.ingredientAmount = ingredientAmount;
     }
 
@@ -36,12 +33,12 @@ public class RequiredIngredient implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RequiredIngredient that = (RequiredIngredient) o;
-        return id == that.id && recipeId == that.recipeId && ingredientId == that.ingredientId && ingredientAmount == that.ingredientAmount && ingredientName.equals(that.ingredientName);
+        return id == that.id && recipeId == that.recipeId && ingredientId == that.ingredientId && ingredientAmount == that.ingredientAmount;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, recipeId, ingredientId, ingredientName, ingredientAmount);
+        return Objects.hash(id, recipeId, ingredientId, ingredientAmount);
     }
 
     @Override
@@ -50,7 +47,6 @@ public class RequiredIngredient implements Serializable {
                 "id=" + id +
                 ", recipeId=" + recipeId +
                 ", ingredientId=" + ingredientId +
-                ", ingredientName='" + ingredientName + '\'' +
                 ", ingredientAmount=" + ingredientAmount +
                 '}';
     }

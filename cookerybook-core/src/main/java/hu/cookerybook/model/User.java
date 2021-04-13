@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
@@ -42,6 +44,16 @@ public class User implements Serializable {
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public User(int userRole, String username, String email, String password, String firstName, String lastName, Date registerDate) {
+        this.userRole = userRole;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.registerDate = registerDate;
     }
 
     public User(int id, int userRole, String username, String email, String password, String firstName, String lastName) {
@@ -86,7 +98,7 @@ public class User implements Serializable {
                 ", email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", registerDate='" + registerDate + '\'' +
+                ", registerDate='" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(registerDate) + '\'' +
                 '}';
     }
 }

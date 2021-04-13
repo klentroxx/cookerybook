@@ -2,18 +2,17 @@ package hu.cookerybook.dao;
 
 import hu.cookerybook.model.Ingredient;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface IngredientDAO {
 
     void addIngredient(Ingredient ingredient);
 
-    void removeIngredient(int id);
+    void removeIngredient(Ingredient ingredient);
 
-    List<Ingredient> getAllIngredients() throws SQLException;
+    List<Ingredient> getAllIngredients();
 
-    Ingredient getIngredient(int id) throws SQLException;
+    Ingredient getIngredient(int id);
 
     void updateIngredient(Ingredient ingredient);
     

@@ -1,21 +1,21 @@
 package hu.cookerybook.dao;
 
+import hu.cookerybook.model.Recipe;
 import hu.cookerybook.model.RequiredIngredient;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface RequiredIngredientDAO {
 
     void addRequiredIngredient(RequiredIngredient requiredIngredient);
 
-    void removeRequiredIngredient(int id);
+    void removeRequiredIngredient(RequiredIngredient requiredIngredient);
 
-    List<RequiredIngredient> getAllRequiredIngredients() throws SQLException;
+    List<RequiredIngredient> getAllRequiredIngredients();
 
-    List<RequiredIngredient> getRequiredIngredients(int recipeId) throws SQLException;
+    List<RequiredIngredient> getRequiredIngredients(Recipe recipe);
 
-    RequiredIngredient getRequiredIngredient(int id) throws SQLException;
+    RequiredIngredient getRequiredIngredient(int id);
 
     void updateRequiredIngredient(RequiredIngredient requiredIngredient);
 

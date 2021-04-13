@@ -14,8 +14,9 @@ import static java.lang.Integer.parseInt;
 public class UnitDAOImpl implements UnitDAO {
     @Override
     public void addUnit(Unit unit) {
-        String queryString = "INSERT INTO units (name, default_unit_id, unit_change, created_at, updated_at) " +
+        String queryString = "INSERT INTO units (name, short_name, default_unit_id, unit_change, created_at, updated_at) " +
                 "VALUES('" + unit.getName() + "', " +
+                "'" + unit.getShortName() + "', " +
                 unit.getDefaultUnitId() + ", " +
                 unit.getUnitChange() + ", " +
                 "'" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "', " +
@@ -36,7 +37,7 @@ public class UnitDAOImpl implements UnitDAO {
         List<String[]> resultSet = DatabaseFunctions.getDataFromDatabase(queryString);
 
         for (String[] row : resultSet) {
-            result.add(new Unit(parseInt(row[0]), row[1], parseInt(row[2]), parseFloat(row[3])));
+            result.add(new Unit(parseInt(row[0]), row[1], row[2], parseInt(row[3]), parseFloat(row[4])));
         }
 
         return result;
@@ -49,7 +50,7 @@ public class UnitDAOImpl implements UnitDAO {
         List<String[]> resultSet = DatabaseFunctions.getDataFromDatabase(queryString);
 
         for (String[] row : resultSet) {
-            result.add(new Unit(parseInt(row[0]), row[1], parseInt(row[2]), parseFloat(row[3])));
+            result.add(new Unit(parseInt(row[0]), row[1], row[2], parseInt(row[3]), parseFloat(row[4])));
         }
 
         return result;
@@ -61,17 +62,18 @@ public class UnitDAOImpl implements UnitDAO {
         List<String[]> resultSet = DatabaseFunctions.getDataFromDatabase(queryString);
         String[] row = resultSet.get(0);
 
-        return new Unit(parseInt(row[0]), row[1], parseInt(row[2]), parseFloat(row[3]));
+        return new Unit(parseInt(row[0]), row[1], row[2], parseInt(row[3]), parseFloat(row[4]));
     }
 
     @Override
     public void updateUnit(Unit unit) {
         String queryString = "UPDATE units SET " +
-                "name='" + unit.getName() + "', " +
-                "default_unit=" + unit.getDefaultUnitId() + ", " +
-                "unit_change=" + unit.getUnitChange() + ", " +
-                "updated_at='" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "' " +
-                "WHERE id=" + unit.getId();
+                "name = '" + unit.getName() + "', " +
+                "short_name = '" + unit.getShortName() + "', " +
+                "default_unit_id = " + unit.getDefaultUnitId() + ", " +
+                "unit_change = " + unit.getUnitChange() + ", " +
+                "updated_at = '" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "' " +
+                "WHERE id = " + unit.getId() + ";";
         DatabaseFunctions.setDataInDatabase(queryString);
     }
 }

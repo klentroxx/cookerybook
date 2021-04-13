@@ -41,7 +41,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.4</version>
                 <configuration>
-                    <mainClass>hu.cookerybook.App</mainClass>
+                    <mainClass>hu.cookerybook.Desktop</mainClass>
                 </configuration>
             </plugin>
         </plugins>

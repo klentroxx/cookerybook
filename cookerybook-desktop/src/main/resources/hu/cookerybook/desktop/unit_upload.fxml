@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+  <items>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="173.0">
+         <children>
+            <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <top>
+                  <AnchorPane prefHeight="30.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label text="Új mértékegység feltöltése" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets bottom="2.0" left="10.0" right="10.0" top="2.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </top>
+               <bottom>
+                  <HBox alignment="CENTER" prefHeight="36.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Feltöltés" />
+                     </children>
+                  </HBox>
+               </bottom>
+               <center>
+                  <ScrollPane BorderPane.alignment="CENTER">
+                     <content>
+                        <VBox maxWidth="-Infinity" prefHeight="267.0" prefWidth="256.0">
+                           <children>
+                              <Label text="Mértékegység megnevezése*" wrapText="true">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <TextField prefHeight="25.0" prefWidth="200.0">
+                                 <VBox.margin>
+                                    <Insets bottom="15.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <Label text="Rövid megnevezés*">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <TextField prefWidth="200.0">
+                                 <VBox.margin>
+                                    <Insets bottom="15.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <Label text="Alapértelmezett mértékegység " wrapText="true">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <ChoiceBox prefWidth="256.0">
+                                 <VBox.margin>
+                                    <Insets bottom="15.0" />
+                                 </VBox.margin>
+                              </ChoiceBox>
+                              <Label text="Átváltási szorzó az alapértelmezett értékhez képest" wrapText="true">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <TextField />
+                              <Label text="*: Kötelező mező">
+                                 <VBox.margin>
+                                    <Insets top="40.0" />
+                                 </VBox.margin>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </content>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                  </ScrollPane>
+               </center>
+            </BorderPane>
+         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="394.0">
+         <children>
+            <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <center>
+                  <ScrollPane fitToHeight="true" fitToWidth="true" BorderPane.alignment="CENTER">
+                     <content>
+                        <ListView prefHeight="200.0" prefWidth="200.0" />
+                     </content></ScrollPane>
+               </center>
+               <bottom>
+                  <HBox alignment="CENTER" fillHeight="false" prefHeight="36.0" prefWidth="296.0" BorderPane.alignment="TOP_LEFT">
+                     <children>
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Törlés" textAlignment="CENTER">
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <HBox.margin>
+                              <Insets right="20.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Módosítás" textAlignment="CENTER">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </bottom>
+               <top>
+                  <AnchorPane prefHeight="30.0" BorderPane.alignment="CENTER_LEFT">
+                     <children>
+                        <Label text="Feltöltött mértékegységek szerkesztése és törlése" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets bottom="2.0" left="10.0" right="10.0" top="2.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </top>
+            </BorderPane>
+         </children></AnchorPane>
+  </items>
+</SplitPane>

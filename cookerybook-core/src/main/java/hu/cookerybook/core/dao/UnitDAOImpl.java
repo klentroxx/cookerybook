@@ -21,23 +21,29 @@ public class UnitDAOImpl implements UnitDAO {
                 unit.getUnitChange() + ", " +
                 "'" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "', " +
                 "'" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "');";
-        DatabaseFunctions.setDataInDatabase(queryString);
+        new DatabaseFunctions().setDataInDatabase(queryString);
     }
 
     @Override
     public void removeUnit(Unit unit) {
         String queryString = "DELETE FROM units WHERE id=" + unit.getId();
-        DatabaseFunctions.setDataInDatabase(queryString);
+        new DatabaseFunctions().setDataInDatabase(queryString);
     }
 
     @Override
     public List<Unit> getAllUnits() {
         List<Unit> result = new ArrayList<>();
         String queryString = "SELECT * FROM units";
-        List<String[]> resultSet = DatabaseFunctions.getDataFromDatabase(queryString);
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
 
         for (String[] row : resultSet) {
-            result.add(new Unit(parseInt(row[0]), row[1], row[2], parseInt(row[3]), parseFloat(row[4])));
+            Unit u = new Unit();
+            u.setId(parseInt(row[0]));
+            u.setName(row[1]);
+            u.setShortName(row[2]);
+            u.setDefaultUnitId(parseInt(row[3]));
+            u.setUnitChange(parseInt(row[4]));
+            result.add(u);
         }
 
         return result;
@@ -47,10 +53,16 @@ public class UnitDAOImpl implements UnitDAO {
     public List<Unit> getChangesOfUnit(Unit unit) {
         List<Unit> result = new ArrayList<>();
         String queryString = "SELECT * FROM units WHERE id=" + unit.getId() + " OR default_unit=" + unit.getId();
-        List<String[]> resultSet = DatabaseFunctions.getDataFromDatabase(queryString);
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
 
         for (String[] row : resultSet) {
-            result.add(new Unit(parseInt(row[0]), row[1], row[2], parseInt(row[3]), parseFloat(row[4])));
+            Unit u = new Unit();
+            u.setId(parseInt(row[0]));
+            u.setName(row[1]);
+            u.setShortName(row[2]);
+            u.setDefaultUnitId(parseInt(row[3]));
+            u.setUnitChange(parseInt(row[4]));
+            result.add(u);
         }
 
         return result;
@@ -59,10 +71,18 @@ public class UnitDAOImpl implements UnitDAO {
     @Override
     public Unit getUnit(int id) {
         String queryString = "SELECT * FROM units WHERE id=" + id;
-        List<String[]> resultSet = DatabaseFunctions.getDataFromDatabase(queryString);
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
         String[] row = resultSet.get(0);
 
-        return new Unit(parseInt(row[0]), row[1], row[2], parseInt(row[3]), parseFloat(row[4]));
+        Unit u = new Unit();
+
+        u.setId(parseInt(row[0]));
+        u.setName(row[1]);
+        u.setShortName(row[2]);
+        u.setDefaultUnitId(parseInt(row[3]));
+        u.setUnitChange(parseInt(row[4]));
+
+        return u;
     }
 
     @Override
@@ -74,6 +94,6 @@ public class UnitDAOImpl implements UnitDAO {
                 "unit_change = " + unit.getUnitChange() + ", " +
                 "updated_at = '" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "' " +
                 "WHERE id = " + unit.getId() + ";";
-        DatabaseFunctions.setDataInDatabase(queryString);
+        new DatabaseFunctions().setDataInDatabase(queryString);
     }
 }

@@ -24,29 +24,36 @@ public class UserDAOImpl implements UserDAO {
                 "'" + user.getLastName() + "', " +
                 "'" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "', " +
                 "'" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "');";
-        DatabaseFunctions.setDataInDatabase(queryString);
+        new DatabaseFunctions().setDataInDatabase(queryString);
     }
 
     @Override
     public void removeUser(User user) {
         String queryString = "DELETE FROM users WHERE id=" + user.getId();
-        DatabaseFunctions.setDataInDatabase(queryString);
+        new DatabaseFunctions().setDataInDatabase(queryString);
     }
 
     @Override
     public List<User> getAllUsers() {
         List<User> result = new ArrayList<>();
         String queryString = "SELECT * FROM users";
-        List<String[]> resultSet = DatabaseFunctions.getDataFromDatabase(queryString);
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
 
         for (String[] row : resultSet) {
-            User user = null;
+            User u = new User();
             try {
-                user = new User(parseInt(row[0]), parseInt(row[1]), row[2], row[3], row[4], row[5], row[6], new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(row[7]));
+                u.setId(parseInt(row[0]));
+                u.setUserRole(parseInt(row[1]));
+                u.setUsername(row[2]);
+                u.setEmail(row[3]);
+                u.setPassword(row[4]);
+                u.setFirstName(row[5]);
+                u.setLastName(row[6]);
+                u.setRegisterDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(row[7]));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            result.add(user);
+            result.add(u);
         }
 
         return result;
@@ -54,13 +61,20 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User getUser(int id) {
-        User result = null;
+        User result = new User();
         String queryString = "SELECT * FROM users WHERE id=" + id;
-        List<String[]> resultSet = DatabaseFunctions.getDataFromDatabase(queryString);
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
         String[] row = resultSet.get(0);
 
         try {
-            result = new User(parseInt(row[0]), parseInt(row[1]), row[2], row[3], row[4], row[5], row[6], new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(row[7]));
+            result.setId(parseInt(row[0]));
+            result.setUserRole(parseInt(row[1]));
+            result.setUsername(row[2]);
+            result.setEmail(row[3]);
+            result.setPassword(row[4]);
+            result.setFirstName(row[5]);
+            result.setLastName(row[6]);
+            result.setRegisterDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(row[7]));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -79,7 +93,7 @@ public class UserDAOImpl implements UserDAO {
                 "last_name='" + user.getLastName() + "', " +
                 "updated_at='" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "' " +
                 "WHERE id=" + user.getId();
-        DatabaseFunctions.setDataInDatabase(queryString);
+        new DatabaseFunctions().setDataInDatabase(queryString);
     }
 
 }

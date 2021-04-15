@@ -21,23 +21,28 @@ public class RequiredIngredientDAOImpl implements RequiredIngredientDAO {
                 requiredIngredient.getIngredientAmount() + ", " +
                 "'" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "', " +
                 "'" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "');";
-        DatabaseFunctions.setDataInDatabase(queryString);
+        new DatabaseFunctions().setDataInDatabase(queryString);
     }
 
     @Override
     public void removeRequiredIngredient(RequiredIngredient requiredIngredient) {
         String queryString = "DELETE FROM required_ingredients WHERE id=" + requiredIngredient.getId();
-        DatabaseFunctions.setDataInDatabase(queryString);
+        new DatabaseFunctions().setDataInDatabase(queryString);
     }
 
     @Override
     public List<RequiredIngredient> getAllRequiredIngredients() {
         List<RequiredIngredient> result = new ArrayList<>();
         String queryString = "SELECT * FROM required_ingredients";
-        List<String[]> resultSet = DatabaseFunctions.getDataFromDatabase(queryString);
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
 
         for (String[] row : resultSet) {
-            result.add(new RequiredIngredient(parseInt(row[0]), parseInt(row[1]), parseInt(row[2]), parseFloat(row[4])));
+            RequiredIngredient ri = new RequiredIngredient();
+            ri.setId(parseInt(row[0]));
+            ri.setRecipeId(parseInt(row[0]));
+            ri.setIngredientId(parseInt(row[0]));
+            ri.setIngredientAmount(parseFloat(row[0]));
+            result.add(ri);
         }
 
         return result;
@@ -47,10 +52,15 @@ public class RequiredIngredientDAOImpl implements RequiredIngredientDAO {
     public List<RequiredIngredient> getRequiredIngredients(Recipe recipe) {
         List<RequiredIngredient> result = new ArrayList<>();
         String queryString = "SELECT * FROM required_ingredients WHERE recipe_id=" + recipe.getId();
-        List<String[]> resultSet = DatabaseFunctions.getDataFromDatabase(queryString);
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
 
         for (String[] row : resultSet) {
-            result.add(new RequiredIngredient(parseInt(row[0]), parseInt(row[1]), parseInt(row[2]), parseFloat(row[4])));
+            RequiredIngredient ri = new RequiredIngredient();
+            ri.setId(parseInt(row[0]));
+            ri.setRecipeId(parseInt(row[0]));
+            ri.setIngredientId(parseInt(row[0]));
+            ri.setIngredientAmount(parseFloat(row[0]));
+            result.add(ri);
         }
 
         return result;
@@ -59,10 +69,16 @@ public class RequiredIngredientDAOImpl implements RequiredIngredientDAO {
     @Override
     public RequiredIngredient getRequiredIngredient(int id) {
         String queryString = "SELECT * FROM required_ingredients";
-        List<String[]> resultSet = DatabaseFunctions.getDataFromDatabase(queryString);
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
         String[] row = resultSet.get(0);
 
-        return new RequiredIngredient(parseInt(row[0]), parseInt(row[1]), parseInt(row[2]), parseFloat(row[4]));
+        RequiredIngredient ri = new RequiredIngredient();
+        ri.setId(parseInt(row[0]));
+        ri.setRecipeId(parseInt(row[0]));
+        ri.setIngredientId(parseInt(row[0]));
+        ri.setIngredientAmount(parseFloat(row[0]));
+
+        return ri;
     }
 
     @Override
@@ -73,6 +89,6 @@ public class RequiredIngredientDAOImpl implements RequiredIngredientDAO {
                 "ingredient_amount=" + requiredIngredient.getIngredientAmount() + " " +
                 "updated_at='" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "' " +
                 "WHERE id=" + requiredIngredient.getId();
-        DatabaseFunctions.setDataInDatabase(queryString);
+        new DatabaseFunctions().setDataInDatabase(queryString);
     }
 }

@@ -1,28 +1,64 @@
 package hu.cookerybook.core.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 public class MenuRecipe implements Serializable {
-    @Getter private int id;
-    @Getter @Setter private int menuId;
-    @Getter @Setter private int recipeId;
+    private IntegerProperty id = new SimpleIntegerProperty(this, "id");
+    private IntegerProperty menuId = new SimpleIntegerProperty(this, "menuId");
+    private IntegerProperty recipeId = new SimpleIntegerProperty(this, "recipeId");
 
     public MenuRecipe() {
     }
 
-    public MenuRecipe(int menuId, int recipeId) {
+    public MenuRecipe(IntegerProperty menuId, IntegerProperty recipeId) {
         this.menuId = menuId;
         this.recipeId = recipeId;
     }
 
-    public MenuRecipe(int id, int menuId, int recipeId) {
+    public MenuRecipe(IntegerProperty id, IntegerProperty menuId, IntegerProperty recipeId) {
         this.id = id;
         this.menuId = menuId;
         this.recipeId = recipeId;
+    }
+
+    public int getId() {
+        return id.get();
+    }
+
+    public IntegerProperty idProperty() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id.set(id);
+    }
+
+    public int getMenuId() {
+        return menuId.get();
+    }
+
+    public IntegerProperty menuIdProperty() {
+        return menuId;
+    }
+
+    public void setMenuId(int menuId) {
+        this.menuId.set(menuId);
+    }
+
+    public int getRecipeId() {
+        return recipeId.get();
+    }
+
+    public IntegerProperty recipeIdProperty() {
+        return recipeId;
+    }
+
+    public void setRecipeId(int recipeId) {
+        this.recipeId.set(recipeId);
     }
 
     @Override

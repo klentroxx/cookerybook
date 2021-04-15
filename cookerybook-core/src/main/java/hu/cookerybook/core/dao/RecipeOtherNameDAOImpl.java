@@ -19,23 +19,27 @@ public class RecipeOtherNameDAOImpl implements RecipeOtherNameDAO {
                 "'" + recipeOtherName.getRecipeName() + "', " +
                 "'" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "', " +
                 "'" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "');";
-        DatabaseFunctions.setDataInDatabase(queryString);
+        new DatabaseFunctions().setDataInDatabase(queryString);
     }
 
     @Override
     public void removeRecipeOtherName(RecipeOtherName recipeOtherName) {
         String queryString = "DELETE FROM recipe_other_names WHERE id=" + recipeOtherName.getId();
-        DatabaseFunctions.setDataInDatabase(queryString);
+        new DatabaseFunctions().setDataInDatabase(queryString);
     }
 
     @Override
     public List<RecipeOtherName> getAllRecipeOtherNames() {
         List<RecipeOtherName> result = new ArrayList<>();
         String queryString = "SELECT * FROM recipe_other_names";
-        List<String[]> resultSet = DatabaseFunctions.getDataFromDatabase(queryString);
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
 
         for (String[] row : resultSet) {
-            result.add(new RecipeOtherName(parseInt(row[0]), parseInt(row[1]), row[2]));
+            RecipeOtherName ron = new RecipeOtherName();
+            ron.setId(parseInt(row[0]));
+            ron.setRecipeId(parseInt(row[1]));
+            ron.setRecipeName(row[2]);
+            result.add(ron);
         }
 
         return result;
@@ -45,10 +49,14 @@ public class RecipeOtherNameDAOImpl implements RecipeOtherNameDAO {
     public List<RecipeOtherName> getRecipeNames(Recipe recipe) {
         List<RecipeOtherName> result = new ArrayList<>();
         String queryString = "SELECT * FROM recipe_other_names WHERE recipe_id=" + recipe.getId();
-        List<String[]> resultSet = DatabaseFunctions.getDataFromDatabase(queryString);
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
 
         for (String[] row : resultSet) {
-            result.add(new RecipeOtherName(parseInt(row[0]), parseInt(row[1]), row[2]));
+            RecipeOtherName ron = new RecipeOtherName();
+            ron.setId(parseInt(row[0]));
+            ron.setRecipeId(parseInt(row[1]));
+            ron.setRecipeName(row[2]);
+            result.add(ron);
         }
 
         return result;
@@ -57,10 +65,15 @@ public class RecipeOtherNameDAOImpl implements RecipeOtherNameDAO {
     @Override
     public RecipeOtherName getRecipeOtherName(int id) {
         String queryString = "SELECT * FROM recipe_other_names WHERE recipe_id=" + id;
-        List<String[]> resultSet = DatabaseFunctions.getDataFromDatabase(queryString);
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
         String[] row = resultSet.get(0);
 
-        return new RecipeOtherName(parseInt(row[0]), parseInt(row[1]), row[2]);
+        RecipeOtherName ron = new RecipeOtherName();
+        ron.setId(parseInt(row[0]));
+        ron.setRecipeId(parseInt(row[1]));
+        ron.setRecipeName(row[2]);
+
+        return ron;
     }
 
     @Override
@@ -70,6 +83,6 @@ public class RecipeOtherNameDAOImpl implements RecipeOtherNameDAO {
                 "recipe_name=" + recipeOtherName.getRecipeName() + " " +
                 "updated_at='" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "' " +
                 "WHERE id=" + recipeOtherName.getId();
-        DatabaseFunctions.setDataInDatabase(queryString);
+        new DatabaseFunctions().setDataInDatabase(queryString);
     }
 }

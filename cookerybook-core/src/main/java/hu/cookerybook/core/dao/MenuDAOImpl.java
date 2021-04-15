@@ -19,23 +19,27 @@ public class MenuDAOImpl implements MenuDAO {
                 menu.getCreatedById() + ", " +
                 "'" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "', " +
                 "'" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "');";
-        DatabaseFunctions.setDataInDatabase(queryString);
+        new DatabaseFunctions().setDataInDatabase(queryString);
     }
 
     @Override
     public void removeMenu(Menu menu) {
         String queryString = "DELETE FROM menu WHERE id=" + menu.getId();
-        DatabaseFunctions.setDataInDatabase(queryString);
+        new DatabaseFunctions().setDataInDatabase(queryString);
     }
 
     @Override
     public List<Menu> getAllMenus() {
         List<Menu> result = new ArrayList<>();
         String queryString = "SELECT * FROM menu";
-        List<String[]> resultSet = DatabaseFunctions.getDataFromDatabase(queryString);
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
 
         for (String[] row : resultSet) {
-            result.add(new Menu(parseInt(row[0]), row[1], parseInt(row[2])));
+            Menu m = new Menu();
+            m.setId(parseInt(row[0]));
+            m.setName(row[1]);
+            m.setCreatedById(parseInt(row[2]));
+            result.add(m);
         }
 
         return result;
@@ -45,10 +49,14 @@ public class MenuDAOImpl implements MenuDAO {
     public List<Menu> getMenus(User user) {
         List<Menu> result = new ArrayList<>();
         String queryString = "SELECT * FROM menu WHERE created_by=" + user.getId();
-        List<String[]> resultSet = DatabaseFunctions.getDataFromDatabase(queryString);
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
 
         for (String[] row : resultSet) {
-            result.add(new Menu(parseInt(row[0]), row[1], parseInt(row[2])));
+            Menu m = new Menu();
+            m.setId(parseInt(row[0]));
+            m.setName(row[1]);
+            m.setCreatedById(parseInt(row[2]));
+            result.add(m);
         }
 
         return result;
@@ -57,10 +65,15 @@ public class MenuDAOImpl implements MenuDAO {
     @Override
     public Menu getMenu(int id) {
         String queryString = "SELECT * FROM menu WHERE id=" + id;
-        List<String[]> resultSet = DatabaseFunctions.getDataFromDatabase(queryString);
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
         String[] row = resultSet.get(0);
 
-        return new Menu(parseInt(row[0]), row[1], parseInt(row[2]));
+        Menu m = new Menu();
+        m.setId(parseInt(row[0]));
+        m.setName(row[1]);
+        m.setCreatedById(parseInt(row[2]));
+
+        return m;
     }
 
     @Override
@@ -70,6 +83,6 @@ public class MenuDAOImpl implements MenuDAO {
                 "created_by=" + menu.getCreatedById() + " " +
                 "updated_at='" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "' " +
                 "WHERE id=" + menu.getId();
-        DatabaseFunctions.setDataInDatabase(queryString);
+        new DatabaseFunctions().setDataInDatabase(queryString);
     }
 }

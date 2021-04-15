@@ -1,18 +1,30 @@
 package hu.cookerybook.core.dbconn;
 
-import hu.cookerybook.core.Labels;
-
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class DatabaseFunctions {
 
-    public static void setDataInDatabase(String query) {
+    private String connectionURL;
+
+    public DatabaseFunctions() {
+        try {
+            Properties properties = new Properties();
+            properties.load(getClass().getResourceAsStream("/application.properties"));
+            connectionURL = properties.getProperty("jdbc.jdbc-url");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setDataInDatabase(String query) {
         Connection connection = null;
         Statement statement = null;
         try {
-            connection = DriverManager.getConnection(Labels.CONNECTION_STRING);
+            connection = DriverManager.getConnection(connectionURL);
             statement = connection.createStatement();
             statement.executeUpdate(query);
         } catch (SQLException e) {
@@ -22,14 +34,14 @@ public class DatabaseFunctions {
         }
     }
 
-    public static List<String[]> getDataFromDatabase(String query) {
+    public List<String[]> getDataFromDatabase(String query) {
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet;
         List<String[]> resultList = new ArrayList<>();
 
         try {
-            connection = DriverManager.getConnection(Labels.CONNECTION_STRING);
+            connection = DriverManager.getConnection(connectionURL);
             statement = connection.createStatement();
             resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
@@ -48,7 +60,7 @@ public class DatabaseFunctions {
         return resultList;
     }
 
-    private static void closeConnection(Connection connection, Statement statement) {
+    private void closeConnection(Connection connection, Statement statement) {
         try {
             if (statement != null) {
                 statement.close();

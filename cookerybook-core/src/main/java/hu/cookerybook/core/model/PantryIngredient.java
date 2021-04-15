@@ -1,35 +1,44 @@
 package hu.cookerybook.core.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import javafx.beans.property.FloatProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleFloatProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 public class PantryIngredient implements Serializable {
-    @Getter private int id;
-    @Getter @Setter private int userId;
-    @Getter @Setter private int ingredientId;
-    @Getter @Setter private int ingredientQuantity;
-    @Getter @Setter private float minimumAmount;
+    private IntegerProperty id = new SimpleIntegerProperty(this, "id");
+    private IntegerProperty userId = new SimpleIntegerProperty(this, "userId");
+    private IntegerProperty ingredientId = new SimpleIntegerProperty(this, "ingredientId");
+    private IntegerProperty ingredientQuantity = new SimpleIntegerProperty(this, "ingredientQuantity");
+    private FloatProperty minimumAmount = new SimpleFloatProperty(this, "ingredientQuantity");
 
     public PantryIngredient() {
     }
 
-    public PantryIngredient(int userId, int ingredientId, int ingredientQuantity) {
+    public PantryIngredient(IntegerProperty userId, IntegerProperty ingredientId, IntegerProperty ingredientQuantity) {
         this.userId = userId;
         this.ingredientId = ingredientId;
         this.ingredientQuantity = ingredientQuantity;
     }
 
-    public PantryIngredient(int id, int userId, int ingredientId, int ingredientQuantity) {
+    public PantryIngredient(IntegerProperty userId, IntegerProperty ingredientId, IntegerProperty ingredientQuantity, FloatProperty minimumAmount) {
+        this.userId = userId;
+        this.ingredientId = ingredientId;
+        this.ingredientQuantity = ingredientQuantity;
+        this.minimumAmount = minimumAmount;
+    }
+
+    public PantryIngredient(IntegerProperty id, IntegerProperty userId, IntegerProperty ingredientId, IntegerProperty ingredientQuantity) {
         this.id = id;
         this.userId = userId;
         this.ingredientId = ingredientId;
         this.ingredientQuantity = ingredientQuantity;
     }
 
-    public PantryIngredient(int id, int userId, int ingredientId, int ingredientQuantity, float minimumAmount) {
+    public PantryIngredient(IntegerProperty id, IntegerProperty userId, IntegerProperty ingredientId, IntegerProperty ingredientQuantity, FloatProperty minimumAmount) {
         this.id = id;
         this.userId = userId;
         this.ingredientId = ingredientId;
@@ -37,12 +46,72 @@ public class PantryIngredient implements Serializable {
         this.minimumAmount = minimumAmount;
     }
 
+    public int getId() {
+        return id.get();
+    }
+
+    public IntegerProperty idProperty() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id.set(id);
+    }
+
+    public int getUserId() {
+        return userId.get();
+    }
+
+    public IntegerProperty userIdProperty() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId.set(userId);
+    }
+
+    public int getIngredientId() {
+        return ingredientId.get();
+    }
+
+    public IntegerProperty ingredientIdProperty() {
+        return ingredientId;
+    }
+
+    public void setIngredientId(int ingredientId) {
+        this.ingredientId.set(ingredientId);
+    }
+
+    public int getIngredientQuantity() {
+        return ingredientQuantity.get();
+    }
+
+    public IntegerProperty ingredientQuantityProperty() {
+        return ingredientQuantity;
+    }
+
+    public void setIngredientQuantity(int ingredientQuantity) {
+        this.ingredientQuantity.set(ingredientQuantity);
+    }
+
+    public float getMinimumAmount() {
+        return minimumAmount.get();
+    }
+
+    public FloatProperty minimumAmountProperty() {
+        return minimumAmount;
+    }
+
+    public void setMinimumAmount(float minimumAmount) {
+        this.minimumAmount.set(minimumAmount);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PantryIngredient that = (PantryIngredient) o;
-        return id == that.id && userId == that.userId && ingredientId == that.ingredientId && ingredientQuantity == that.ingredientQuantity && Float.compare(that.minimumAmount, minimumAmount) == 0;
+        return Objects.equals(id, that.id) && userId.equals(that.userId) && ingredientId.equals(that.ingredientId) && ingredientQuantity.equals(that.ingredientQuantity) && Objects.equals(minimumAmount, that.minimumAmount);
     }
 
     @Override

@@ -13,6 +13,7 @@ import static java.lang.Float.parseFloat;
 import static java.lang.Integer.parseInt;
 
 public class PantryDAOImpl implements PantryDAO {
+
     @Override
     public void addPantryIngredient(PantryIngredient pantryIngredient) {
         String queryString = "INSERT INTO pantry (user_id, ingredient_id, ingredient_quantity, minimum_amount) " +
@@ -22,23 +23,29 @@ public class PantryDAOImpl implements PantryDAO {
                 pantryIngredient.getMinimumAmount() + ", " +
                 "'" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "', " +
                 "'" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "');";
-        DatabaseFunctions.setDataInDatabase(queryString);
+        new DatabaseFunctions().setDataInDatabase(queryString);
     }
 
     @Override
     public void removePantryIngredient(PantryIngredient pantryIngredient) {
         String queryString = "DELETE FROM pantry WHERE id=" + pantryIngredient.getId();
-        DatabaseFunctions.setDataInDatabase(queryString);
+        new DatabaseFunctions().setDataInDatabase(queryString);
     }
 
     @Override
     public List<PantryIngredient> getAllPantryIngredients() {
         List<PantryIngredient> result = new ArrayList<>();
         String queryString = "SELECT * FROM pantry";
-        List<String[]> resultSet = DatabaseFunctions.getDataFromDatabase(queryString);
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
 
         for (String[] row : resultSet) {
-            result.add(new PantryIngredient(parseInt(row[0]), parseInt(row[1]), parseInt(row[2]), parseInt(row[3]), parseFloat(row[4])));
+            PantryIngredient pi = new PantryIngredient();
+            pi.setId(parseInt(row[0]));
+            pi.setUserId(parseInt(row[1]));
+            pi.setIngredientId(parseInt(row[2]));
+            pi.setIngredientQuantity(parseInt(row[3]));
+            pi.setMinimumAmount(parseFloat(row[4]));
+            result.add(pi);
         }
 
         return result;
@@ -48,10 +55,16 @@ public class PantryDAOImpl implements PantryDAO {
     public List<PantryIngredient> getPantryIngredients(User user) {
         List<PantryIngredient> result = new ArrayList<>();
         String queryString = "SELECT * FROM pantry WHERE user_id=" + user.getId();
-        List<String[]> resultSet = DatabaseFunctions.getDataFromDatabase(queryString);
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
 
         for (String[] row : resultSet) {
-            result.add(new PantryIngredient(parseInt(row[0]), parseInt(row[1]), parseInt(row[2]), parseInt(row[3]), parseFloat(row[4])));
+            PantryIngredient pi = new PantryIngredient();
+            pi.setId(parseInt(row[0]));
+            pi.setUserId(parseInt(row[1]));
+            pi.setIngredientId(parseInt(row[2]));
+            pi.setIngredientQuantity(parseInt(row[3]));
+            pi.setMinimumAmount(parseFloat(row[4]));
+            result.add(pi);
         }
 
         return result;
@@ -60,10 +73,17 @@ public class PantryDAOImpl implements PantryDAO {
     @Override
     public PantryIngredient getPantryIngredient(int id) {
         String queryString = "SELECT * FROM pantry WHERE id=" + id;
-        List<String[]> resultSet = DatabaseFunctions.getDataFromDatabase(queryString);
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
         String[] row = resultSet.get(0);
 
-        return new PantryIngredient(parseInt(row[0]), parseInt(row[1]), parseInt(row[2]), parseInt(row[3]), parseFloat(row[4]));
+        PantryIngredient pi = new PantryIngredient();
+        pi.setId(parseInt(row[0]));
+        pi.setUserId(parseInt(row[1]));
+        pi.setIngredientId(parseInt(row[2]));
+        pi.setIngredientQuantity(parseInt(row[3]));
+        pi.setMinimumAmount(parseFloat(row[4]));
+
+        return pi;
     }
 
     @Override
@@ -75,6 +95,6 @@ public class PantryDAOImpl implements PantryDAO {
                 "minimum_amount=" + pantryIngredient.getMinimumAmount() + " " +
                 "updated_at='" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "' " +
                 "WHERE id=" + pantryIngredient.getId();
-        DatabaseFunctions.setDataInDatabase(queryString);
+        new DatabaseFunctions().setDataInDatabase(queryString);
     }
 }

@@ -122,11 +122,11 @@ public class PantryIngredient implements Serializable {
     @Override
     public String toString() {
         return "PantryIngredient{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", ingredientId=" + ingredientId +
-                ", ingredientQuantity=" + ingredientQuantity +
-                ", minimumAmount=" + minimumAmount +
+                "id=" + getId() +
+                ", userId=" + getUserId() +
+                ", ingredientId=" + getIngredientId() +
+                ", ingredientQuantity=" + getIngredientQuantity() +
+                ", minimumAmount=" + getMinimumAmount() +
                 '}';
     }
 }

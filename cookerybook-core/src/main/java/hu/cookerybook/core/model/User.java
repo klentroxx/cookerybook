@@ -188,13 +188,14 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", userRole=" + userRole +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", registerDate='" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(registerDate) + '\'' +
+                "id=" + getId() +
+                ", userRole=" + getUserRole() +
+                ", username=" + getUsername() +
+                ", email=" + getEmail() +
+                ", password=" + getPassword() +
+                ", firstName=" + getFirstName() +
+                ", lastName=" + getLastName() +
+                ", registerDate=" + getRegisterDate() +
                 '}';
     }
 }

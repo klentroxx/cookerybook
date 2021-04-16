@@ -77,9 +77,9 @@ public class MenuRecipe implements Serializable {
     @Override
     public String toString() {
         return "MenuRecipes{" +
-                "id=" + id +
-                ", menuId=" + menuId +
-                ", recipeId=" + recipeId +
+                "id=" + getId() +
+                ", menuId=" + getMenuId() +
+                ", recipeId=" + getRecipeId() +
                 '}';
     }
 }

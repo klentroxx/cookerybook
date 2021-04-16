@@ -2,7 +2,10 @@ package hu.cookerybook.core.dao;
 
 import hu.cookerybook.core.dbconn.DatabaseFunctions;
 import hu.cookerybook.core.model.User;
+import hu.cookerybook.core.security.Security;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,12 +17,12 @@ import static java.lang.Integer.parseInt;
 public class UserDAOImpl implements UserDAO {
 
     @Override
-    public void addUser(User user) {
+    public void addUser(User user) throws NoSuchAlgorithmException, InvalidKeySpecException {
         String queryString = "INSERT INTO users (user_role, username, email, password, first_name, last_name, register_date, updated_at) " +
                 "VALUES(" + user.getUserRole() + ", " +
                 "'" + user.getUsername() + "', " +
                 "'" + user.getEmail() + "', " +
-                "'" + user.getPassword() + "', " +
+                "'" + Security.generatePasswordHash(user.getPassword()) + "', " +
                 "'" + user.getFirstName() + "', " +
                 "'" + user.getLastName() + "', " +
                 "'" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "', " +
@@ -29,7 +32,10 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public void removeUser(User user) {
-        String queryString = "DELETE FROM users WHERE id=" + user.getId();
+        String queryString = "DELETE FROM users " +
+                "WHERE id=" + user.getId() + " OR " +
+                "username='" + user.getUsername() + "' AND " +
+                "email='" + user.getEmail() + "'";
         new DatabaseFunctions().setDataInDatabase(queryString);
     }
 
@@ -60,9 +66,78 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public User getUser(int id) {
+    public User getUserById(int id) {
         User result = new User();
         String queryString = "SELECT * FROM users WHERE id=" + id;
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
+        String[] row = resultSet.get(0);
+
+        try {
+            result.setId(parseInt(row[0]));
+            result.setUserRole(parseInt(row[1]));
+            result.setUsername(row[2]);
+            result.setEmail(row[3]);
+            result.setPassword(row[4]);
+            result.setFirstName(row[5]);
+            result.setLastName(row[6]);
+            result.setRegisterDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(row[7]));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @Override
+    public User getUserByUsername(String username) {
+        User result = new User();
+        String queryString = "SELECT * FROM users WHERE username='" + username + "'";
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
+        String[] row = resultSet.get(0);
+
+        try {
+            result.setId(parseInt(row[0]));
+            result.setUserRole(parseInt(row[1]));
+            result.setUsername(row[2]);
+            result.setEmail(row[3]);
+            result.setPassword(row[4]);
+            result.setFirstName(row[5]);
+            result.setLastName(row[6]);
+            result.setRegisterDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(row[7]));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        User result = new User();
+        String queryString = "SELECT * FROM users WHERE email='" + email + "'";
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
+        String[] row = resultSet.get(0);
+
+        try {
+            result.setId(parseInt(row[0]));
+            result.setUserRole(parseInt(row[1]));
+            result.setUsername(row[2]);
+            result.setEmail(row[3]);
+            result.setPassword(row[4]);
+            result.setFirstName(row[5]);
+            result.setLastName(row[6]);
+            result.setRegisterDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(row[7]));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @Override
+    public User getUserByUsernameOrEmail(String usernameOrEmail) {
+        User result = new User();
+        String queryString = "SELECT * FROM users WHERE username='" + usernameOrEmail + "' OR email='" + usernameOrEmail + "'";
         List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
         String[] row = resultSet.get(0);
 
@@ -92,6 +167,13 @@ public class UserDAOImpl implements UserDAO {
                 "first_name='" + user.getFirstName() + "', " +
                 "last_name='" + user.getLastName() + "', " +
                 "updated_at='" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "' " +
+                "WHERE id=" + user.getId();
+        new DatabaseFunctions().setDataInDatabase(queryString);
+    }
+
+    public void updateUserPassword(User user) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        String queryString = "UPDATE users SET " +
+                "password='" + Security.generatePasswordHash(user.getPassword()) + "' " +
                 "WHERE id=" + user.getId();
         new DatabaseFunctions().setDataInDatabase(queryString);
     }

@@ -132,11 +132,11 @@ public class Unit implements Serializable {
     @Override
     public String toString() {
         return "Unit{" +
-                "id=" + id +
-                ", name=" + name +
-                ", shortName=" + shortName +
-                ", defaultUnitId=" + defaultUnitId +
-                ", unitChange=" + unitChange +
+                "id=" + getId() +
+                ", name=" + getName() +
+                ", shortName=" + getShortName() +
+                ", defaultUnitId=" + getDefaultUnitId() +
+                ", unitChange=" + getUnitChange() +
                 '}';
     }
 }

@@ -79,9 +79,9 @@ public class RecipeOtherName implements Serializable {
     @Override
     public String toString() {
         return "RecipeOtherNames{" +
-                "id=" + id +
-                ", recipeId=" + recipeId +
-                ", recipeName='" + recipeName + '\'' +
+                "id=" + getId() +
+                ", recipeId=" + getRecipeId() +
+                ", recipeName='" + getRecipeName() + '\'' +
                 '}';
     }
 }

@@ -79,9 +79,9 @@ public class Menu implements Serializable {
     @Override
     public String toString() {
         return "Menu{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", createdById=" + createdById +
+                "id=" + getId() +
+                ", name='" + getName() + '\'' +
+                ", createdById=" + getCreatedById() +
                 '}';
     }
 }

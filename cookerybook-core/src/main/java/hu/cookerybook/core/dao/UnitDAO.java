@@ -12,6 +12,8 @@ public interface UnitDAO {
 
     List<Unit> getAllUnits();
 
+    List<Unit> getAllParentUnits();
+
     List<Unit> getChangesOfUnit(Unit unit);
 
     Unit getUnit(int id);

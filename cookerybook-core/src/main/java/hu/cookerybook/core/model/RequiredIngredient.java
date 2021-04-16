@@ -94,10 +94,10 @@ public class RequiredIngredient implements Serializable {
     @Override
     public String toString() {
         return "RequiredIngredient{" +
-                "id=" + id +
-                ", recipeId=" + recipeId +
-                ", ingredientId=" + ingredientId +
-                ", ingredientAmount=" + ingredientAmount +
+                "id=" + getId() +
+                ", recipeId=" + getRecipeId() +
+                ", ingredientId=" + getIngredientId() +
+                ", ingredientAmount=" + getIngredientAmount() +
                 '}';
     }
 }

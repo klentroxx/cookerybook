@@ -170,13 +170,13 @@ public class Recipe implements Serializable {
     @Override
     public String toString() {
         return "Recipe{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", difficulty=" + difficulty +
-                ", timeToCook=" + timeToCook +
-                ", servings=" + servings +
-                ", category='" + category + '\'' +
-                ", createdById=" + createdById +
+                "id=" + getId() +
+                ", name='" + getName() + '\'' +
+                ", difficulty=" + getDifficulty() +
+                ", timeToCook=" + getTimeToCook() +
+                ", servings=" + getServings() +
+                ", category='" + getCategory() + '\'' +
+                ", createdById=" + getCreatedById() +
                 '}';
     }
 }

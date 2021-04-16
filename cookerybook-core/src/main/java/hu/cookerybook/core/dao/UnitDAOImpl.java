@@ -50,6 +50,25 @@ public class UnitDAOImpl implements UnitDAO {
     }
 
     @Override
+    public List<Unit> getAllParentUnits() {
+        List<Unit> result = new ArrayList<>();
+        String queryString = "SELECT * FROM units WHERE default_unit_id = 0 AND unit_change = 0";
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
+
+        for (String[] row : resultSet) {
+            Unit u = new Unit();
+            u.setId(parseInt(row[0]));
+            u.setName(row[1]);
+            u.setShortName(row[2]);
+            u.setDefaultUnitId(parseInt(row[3]));
+            u.setUnitChange(parseInt(row[4]));
+            result.add(u);
+        }
+
+        return result;
+    }
+
+    @Override
     public List<Unit> getChangesOfUnit(Unit unit) {
         List<Unit> result = new ArrayList<>();
         String queryString = "SELECT * FROM units WHERE id=" + unit.getId() + " OR default_unit=" + unit.getId();

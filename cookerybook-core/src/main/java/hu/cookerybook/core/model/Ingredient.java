@@ -80,9 +80,9 @@ public class Ingredient implements Serializable {
     @Override
     public String toString() {
         return "Ingredients{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", unitId=" + unitId +
+                "id=" + getId() +
+                ", name='" + getName() + '\'' +
+                ", unitId=" + getUnitId() +
                 '}';
     }
 }

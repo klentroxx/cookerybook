@@ -18,9 +18,10 @@ public class Desktop extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("login"), 640, 480);
+        scene = new Scene(loadFXML("login"), 1200, 720);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("css/style.css")).toExternalForm());
         stage.setScene(scene);
+        stage.setTitle("Szakácskönyv");
         stage.show();
     }
 

@@ -19,13 +19,10 @@ import java.util.ResourceBundle;
 
 public class UnitUploadController implements Initializable {
 
-    public TextField unitNameInputField;
-    @FXML
-    private ListView<String> unitList = new ListView<>();
-    @FXML
-    private ChoiceBox<String> unitDefaultParentUnitSelect = new ChoiceBox<>();
-    @FXML
-    private Button unitUploadButton;
+    @FXML private TextField unitNameInputField;
+    @FXML private ListView<String> unitList = new ListView<>();
+    @FXML private ChoiceBox<String> unitDefaultParentUnitSelect = new ChoiceBox<>();
+    @FXML private Button unitUploadButton;
 
     public UnitUploadController() {
     }

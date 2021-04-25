@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<TabPane tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hu.cookerybook.desktop.controller.PrimaryController">
+<TabPane minHeight="720.0" minWidth="1200.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hu.cookerybook.desktop.controller.PrimaryController">
    <tabs>
       <Tab text="Alapanyagok feltöltése és szerkesztése">
          <content>
             <VBox alignment="CENTER">
                <children>
-                  <Button defaultButton="true" mnemonicParsing="false" text="Feltöltés" textAlignment="CENTER" onAction="#ingredientUploadRoute">
+                  <Button fx:id="ingredientUploadButton" defaultButton="true" mnemonicParsing="false" onAction="#ingredientUploadRoute" text="Feltöltés" textAlignment="CENTER">
                      <VBox.margin>
                         <Insets bottom="30.0" />
                      </VBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" text="Szerkesztés" textAlignment="CENTER" onAction="#ingredientModifyRoute" />
+                  <Button fx:id="ingredientModifyButton" mnemonicParsing="false" onAction="#ingredientModifyRoute" text="Szerkesztés" textAlignment="CENTER" />
                </children>
             </VBox>
          </content>
@@ -26,12 +24,12 @@
          <content>
             <VBox alignment="CENTER">
                <children>
-                  <Button defaultButton="true" mnemonicParsing="false" text="Feltöltés" textAlignment="CENTER" onAction="#unitUploadRoute">
+                  <Button fx:id="unitUploadButton" defaultButton="true" mnemonicParsing="false" onAction="#unitUploadRoute" text="Feltöltés" textAlignment="CENTER">
                      <VBox.margin>
                         <Insets bottom="30.0" />
                      </VBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" text="Szerkesztés" textAlignment="CENTER" onAction="#unitModifyRoute" />
+                  <Button fx:id="unitModifyButton" mnemonicParsing="false" onAction="#unitModifyRoute" text="Szerkesztés" textAlignment="CENTER" />
                </children>
             </VBox>
          </content>

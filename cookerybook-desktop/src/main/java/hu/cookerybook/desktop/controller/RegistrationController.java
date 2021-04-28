@@ -3,14 +3,11 @@ package hu.cookerybook.desktop.controller;
 import hu.cookerybook.core.dao.UserDAO;
 import hu.cookerybook.core.dao.UserDAOImpl;
 import hu.cookerybook.core.model.User;
-import hu.cookerybook.core.security.Security;
 import hu.cookerybook.desktop.Desktop;
 import hu.cookerybook.desktop.popup.MessageBox;
 import hu.cookerybook.desktop.validation.InputValidation;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
@@ -26,9 +23,6 @@ public class RegistrationController {
     @FXML private TextField lastNameInputField;
     @FXML private PasswordField passwordInputField;
     @FXML private PasswordField passwordAgainInputField;
-    @FXML private Button registrationButton;
-    @FXML private Hyperlink backToLoginButton;
-
 
     public void registration(ActionEvent actionEvent) {
         String username = usernameInputField.getText();
@@ -40,7 +34,6 @@ public class RegistrationController {
         UserDAO userDAO = new UserDAOImpl();
         User newUser = new User();
 
-        System.out.println(username + " " + email + " " + firstName + " " + lastName + " " + password + " " + passwordAgain);
         if (!InputValidation.validateUsername(username)) {
             MessageBox.display("Hibás felhasználónév", "A felhasználónév formátuma vagy hossza nem megfelelő.\nA felhasználónév csak az angol ábécé kis- és nagybetűit illetve számokat tartalmazhat, hossza pedig legalább 3 és legfeljebb 20 karakter lehet.");
             return;
@@ -63,7 +56,7 @@ public class RegistrationController {
 
         newUser.setUsername(username);
         newUser.setEmail(email);
-        newUser.setUserRole(1);
+        newUser.setUserRole(2);
         newUser.setPassword(password);
         newUser.setLastName(lastName);
         newUser.setFirstName(firstName);

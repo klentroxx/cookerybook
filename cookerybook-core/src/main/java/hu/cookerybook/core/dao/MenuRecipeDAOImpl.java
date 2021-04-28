@@ -1,6 +1,7 @@
 package hu.cookerybook.core.dao;
 
 import hu.cookerybook.core.dbconn.DatabaseFunctions;
+import hu.cookerybook.core.dbconn.PreparedStatementParameter;
 import hu.cookerybook.core.model.Menu;
 import hu.cookerybook.core.model.MenuRecipe;
 import hu.cookerybook.core.model.Recipe;
@@ -15,25 +16,31 @@ import static java.lang.Integer.parseInt;
 public class MenuRecipeDAOImpl implements MenuRecipeDAO {
     @Override
     public void addMenuRecipe(MenuRecipe menuRecipe) {
-        String queryString = "INSERT INTO menu_recipes (menu_id, recipe_id) " +
-                "VALUES(" + menuRecipe.getMenuId() + ", " +
-                menuRecipe.getRecipeId() + ", " +
+        String queryString = "INSERT INTO menu_recipes (menu_id, recipe_id, created_at, updated_at) " +
+                "VALUES(?, ?, " +
                 "'" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "', " +
                 "'" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "');";
-        new DatabaseFunctions().setDataInDatabase(queryString);
+        List<PreparedStatementParameter> parameters = new ArrayList<>();
+
+        parameters.add(new PreparedStatementParameter(1, "int", menuRecipe.getMenuId()));
+        parameters.add(new PreparedStatementParameter(2, "int", menuRecipe.getRecipeId()));
+        new DatabaseFunctions().setDataInDatabase(queryString, parameters);
     }
 
     @Override
     public void removeMenuRecipe(MenuRecipe menuRecipe) {
-        String queryString = "DELETE FROM menu_recipes WHERE id=" + menuRecipe.getId();
-        new DatabaseFunctions().setDataInDatabase(queryString);
+        String queryString = "DELETE FROM menu_recipes WHERE id = ?";
+        List<PreparedStatementParameter> parameters = new ArrayList<>();
+
+        parameters.add(new PreparedStatementParameter(1, "int", menuRecipe.getId()));
+        new DatabaseFunctions().setDataInDatabase(queryString, parameters);
     }
 
     @Override
     public List<MenuRecipe> getAllMenuRecipes() {
         List<MenuRecipe> result = new ArrayList<>();
         String queryString = "SELECT * FROM menu_recipes";
-        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabaseStat(queryString);
 
         for (String[] row : resultSet) {
             MenuRecipe mr = new MenuRecipe();
@@ -49,8 +56,11 @@ public class MenuRecipeDAOImpl implements MenuRecipeDAO {
     @Override
     public List<Menu> getMenusWithRecipe(Recipe recipe) {
         List<Menu> result = new ArrayList<>();
-        String queryString = "SELECT * FROM menus WHERE id=(SELECT menu_id FROM menu_recipes WHERE recipe_id=" + recipe.getId() + ")";
-        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
+        String queryString = "SELECT * FROM menus WHERE id = (SELECT menu_id FROM menu_recipes WHERE recipe_id = ?)";
+        List<PreparedStatementParameter> parameters = new ArrayList<>();
+
+        parameters.add(new PreparedStatementParameter(1, "int", recipe.getId()));
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabasePrepStat(queryString, parameters);
 
         for (String[] row : resultSet) {
             Menu m = new Menu();
@@ -66,8 +76,11 @@ public class MenuRecipeDAOImpl implements MenuRecipeDAO {
     @Override
     public List<Recipe> getMenuRecipes(Menu menu) {
         List<Recipe> result = new ArrayList<>();
-        String queryString = "SELECT * FROM recipes WHERE id=(SELECT recipe_id FROM menu_recipes WHERE menu_id=" + menu.getId() + ")";
-        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
+        String queryString = "SELECT * FROM recipes WHERE id = (SELECT recipe_id FROM menu_recipes WHERE menu_id = ?)";
+        List<PreparedStatementParameter> parameters = new ArrayList<>();
+
+        parameters.add(new PreparedStatementParameter(1, "int", menu.getId()));
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabasePrepStat(queryString, parameters);
 
         for (String[] row : resultSet) {
             Recipe r = new Recipe();
@@ -88,8 +101,11 @@ public class MenuRecipeDAOImpl implements MenuRecipeDAO {
 
     @Override
     public MenuRecipe getMenuRecipe(int id) {
-        String queryString = "SELECT * FROM menu_recipes WHERE id=" + id;
-        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
+        String queryString = "SELECT * FROM menu_recipes WHERE id = ?";
+        List<PreparedStatementParameter> parameters = new ArrayList<>();
+
+        parameters.add(new PreparedStatementParameter(1, "int", id));
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabasePrepStat(queryString, parameters);
         String[] row = resultSet.get(0);
 
         MenuRecipe mr = new MenuRecipe();
@@ -103,10 +119,15 @@ public class MenuRecipeDAOImpl implements MenuRecipeDAO {
     @Override
     public void updateMenuRecipe(MenuRecipe menuRecipe) {
         String queryString = "INSERT INTO menu_recipes SET " +
-                "menu_id=" + menuRecipe.getMenuId() + ", " +
-                "recipe_id=" + menuRecipe.getRecipeId() + " " +
-                "updated_at='" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "' " +
-                "WHERE id=" + menuRecipe.getId();
-        new DatabaseFunctions().setDataInDatabase(queryString);
+                "menu_id = ?, " +
+                "recipe_id = ?, " +
+                "updated_at = '" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "' " +
+                "WHERE id = ?;";
+        List<PreparedStatementParameter> parameters = new ArrayList<>();
+
+        parameters.add(new PreparedStatementParameter(1, "int", menuRecipe.getMenuId()));
+        parameters.add(new PreparedStatementParameter(2, "int", menuRecipe.getRecipeId()));
+        parameters.add(new PreparedStatementParameter(3, "int", menuRecipe.getId()));
+        new DatabaseFunctions().setDataInDatabase(queryString, parameters);
     }
 }

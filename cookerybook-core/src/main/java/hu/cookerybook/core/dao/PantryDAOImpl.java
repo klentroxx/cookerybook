@@ -1,6 +1,7 @@
 package hu.cookerybook.core.dao;
 
 import hu.cookerybook.core.dbconn.DatabaseFunctions;
+import hu.cookerybook.core.dbconn.PreparedStatementParameter;
 import hu.cookerybook.core.model.PantryIngredient;
 import hu.cookerybook.core.model.User;
 
@@ -16,27 +17,33 @@ public class PantryDAOImpl implements PantryDAO {
 
     @Override
     public void addPantryIngredient(PantryIngredient pantryIngredient) {
-        String queryString = "INSERT INTO pantry (user_id, ingredient_id, ingredient_quantity, minimum_amount) " +
-                "VALUES(" + pantryIngredient.getUserId() + ", " +
-                pantryIngredient.getIngredientId() + ", " +
-                pantryIngredient.getIngredientQuantity() + ", " +
-                pantryIngredient.getMinimumAmount() + ", " +
+        String queryString = "INSERT INTO pantry (user_id, ingredient_id, ingredient_quantity, minimum_amount, created_at, updated_at) " +
+                "VALUES(?, ?, ?, ?, " +
                 "'" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "', " +
                 "'" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "');";
-        new DatabaseFunctions().setDataInDatabase(queryString);
+        List<PreparedStatementParameter> parameters = new ArrayList<>();
+
+        parameters.add(new PreparedStatementParameter(1, "int", pantryIngredient.getUserId()));
+        parameters.add(new PreparedStatementParameter(2, "int", pantryIngredient.getIngredientId()));
+        parameters.add(new PreparedStatementParameter(3, "int", pantryIngredient.getIngredientQuantity()));
+        parameters.add(new PreparedStatementParameter(4, "float", pantryIngredient.getMinimumAmount()));
+        new DatabaseFunctions().setDataInDatabase(queryString, parameters);
     }
 
     @Override
     public void removePantryIngredient(PantryIngredient pantryIngredient) {
-        String queryString = "DELETE FROM pantry WHERE id=" + pantryIngredient.getId();
-        new DatabaseFunctions().setDataInDatabase(queryString);
+        String queryString = "DELETE FROM pantry WHERE id = ?";
+        List<PreparedStatementParameter> parameters = new ArrayList<>();
+
+        parameters.add(new PreparedStatementParameter(1, "int", pantryIngredient.getId()));
+        new DatabaseFunctions().setDataInDatabase(queryString, parameters);
     }
 
     @Override
     public List<PantryIngredient> getAllPantryIngredients() {
         List<PantryIngredient> result = new ArrayList<>();
         String queryString = "SELECT * FROM pantry";
-        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabaseStat(queryString);
 
         for (String[] row : resultSet) {
             PantryIngredient pi = new PantryIngredient();
@@ -54,8 +61,11 @@ public class PantryDAOImpl implements PantryDAO {
     @Override
     public List<PantryIngredient> getPantryIngredients(User user) {
         List<PantryIngredient> result = new ArrayList<>();
-        String queryString = "SELECT * FROM pantry WHERE user_id=" + user.getId();
-        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
+        String queryString = "SELECT * FROM pantry WHERE user_id = ?";
+        List<PreparedStatementParameter> parameters = new ArrayList<>();
+
+        parameters.add(new PreparedStatementParameter(1, "int", user.getId()));
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabasePrepStat(queryString, parameters);
 
         for (String[] row : resultSet) {
             PantryIngredient pi = new PantryIngredient();
@@ -72,8 +82,11 @@ public class PantryDAOImpl implements PantryDAO {
 
     @Override
     public PantryIngredient getPantryIngredient(int id) {
-        String queryString = "SELECT * FROM pantry WHERE id=" + id;
-        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
+        String queryString = "SELECT * FROM pantry WHERE id = ?";
+        List<PreparedStatementParameter> parameters = new ArrayList<>();
+
+        parameters.add(new PreparedStatementParameter(1, "int", id));
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabasePrepStat(queryString, parameters);
         String[] row = resultSet.get(0);
 
         PantryIngredient pi = new PantryIngredient();
@@ -89,12 +102,19 @@ public class PantryDAOImpl implements PantryDAO {
     @Override
     public void updatePantryIngredient(PantryIngredient pantryIngredient) {
         String queryString = "UPDATE pantry SET " +
-                "user_id=" + pantryIngredient.getUserId() + ", " +
-                "ingredient_id=" + pantryIngredient.getIngredientId() + ", " +
-                "ingredient_quantity=" + pantryIngredient.getIngredientQuantity() + ", " +
-                "minimum_amount=" + pantryIngredient.getMinimumAmount() + " " +
+                "user_id = ?, " +
+                "ingredient_id = ?, " +
+                "ingredient_quantity = ?, " +
+                "minimum_amount = ?, " +
                 "updated_at='" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "' " +
-                "WHERE id=" + pantryIngredient.getId();
-        new DatabaseFunctions().setDataInDatabase(queryString);
+                "WHERE id = ?;";
+        List<PreparedStatementParameter> parameters = new ArrayList<>();
+
+        parameters.add(new PreparedStatementParameter(1, "int", pantryIngredient.getUserId()));
+        parameters.add(new PreparedStatementParameter(2, "int", pantryIngredient.getIngredientId()));
+        parameters.add(new PreparedStatementParameter(3, "int", pantryIngredient.getIngredientQuantity()));
+        parameters.add(new PreparedStatementParameter(4, "float", pantryIngredient.getMinimumAmount()));
+        parameters.add(new PreparedStatementParameter(5, "int", pantryIngredient.getId()));
+        new DatabaseFunctions().setDataInDatabase(queryString, parameters);
     }
 }

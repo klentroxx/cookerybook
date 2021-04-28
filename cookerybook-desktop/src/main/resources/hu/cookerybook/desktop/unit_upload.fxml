@@ -3,8 +3,9 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hu.cookerybook.desktop.controller.UnitUploadController">
+<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hu.cookerybook.desktop.controller.UnitUploadController">
     <items>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="173.0">
             <children>
@@ -23,61 +24,97 @@
                     <bottom>
                         <HBox alignment="CENTER" prefHeight="36.0" BorderPane.alignment="CENTER">
                             <children>
-                                <Button fx:id="unitUploadButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Feltöltés" />
+                                <Button fx:id="unitUploadButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#uploadUnit" prefHeight="30.0" prefWidth="100.0" text="Feltöltés" />
                             </children>
                         </HBox>
                     </bottom>
                     <center>
                         <ScrollPane BorderPane.alignment="CENTER">
                             <content>
-                                <VBox maxWidth="-Infinity" prefHeight="267.0" prefWidth="256.0">
+                                <VBox maxWidth="-Infinity" prefWidth="420.0">
                                     <children>
-                                        <Label text="Mértékegység megnevezése*" wrapText="true">
+                                        <Label text="Mértékegység megnevezése" wrapText="true">
                                             <VBox.margin>
                                                 <Insets bottom="5.0" />
                                             </VBox.margin>
+                                 <graphic>
+                                    <Label text="*" textFill="RED">
+                                       <font>
+                                          <Font name="System Bold" size="18.0" />
+                                       </font>
+                                    </Label>
+                                 </graphic>
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
                                         </Label>
-                                        <TextField fx:id="unitNameInputField" prefHeight="25.0" prefWidth="200.0">
+                                        <TextField fx:id="unitNameInputField" prefHeight="30.0">
                                             <VBox.margin>
-                                                <Insets bottom="15.0" />
+                                                <Insets bottom="20.0" />
                                             </VBox.margin>
                                         </TextField>
-                                        <Label text="Rövid megnevezés*">
+                                        <Label text="Rövid megnevezés">
                                             <VBox.margin>
                                                 <Insets bottom="5.0" />
                                             </VBox.margin>
+                                 <graphic>
+                                    <Label text="*" textFill="RED">
+                                       <font>
+                                          <Font name="System Bold" size="18.0" />
+                                       </font>
+                                    </Label>
+                                 </graphic>
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
                                         </Label>
-                                        <TextField fx:id="unitShortNameInputField" prefWidth="200.0">
+                                        <TextField fx:id="unitShortNameInputField" prefHeight="30.0" prefWidth="200.0">
                                             <VBox.margin>
-                                                <Insets bottom="15.0" />
+                                                <Insets bottom="20.0" />
                                             </VBox.margin>
                                         </TextField>
-                                        <Label text="Alapértelmezett mértékegység " wrapText="true">
+                                        <Label text="Szülő mértékegység" wrapText="true">
                                             <VBox.margin>
                                                 <Insets bottom="5.0" />
                                             </VBox.margin>
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
                                         </Label>
-                                        <ChoiceBox fx:id="unitDefaultParentUnitSelect" prefWidth="256.0">
-                                            <VBox.margin>
-                                                <Insets bottom="15.0" />
-                                            </VBox.margin>
-                                        </ChoiceBox>
+                              <ComboBox fx:id="unitDefaultParentUnitSelect" prefHeight="30.0" prefWidth="420.0">
+                                 <VBox.margin>
+                                    <Insets bottom="20.0" />
+                                 </VBox.margin>
+                              </ComboBox>
                                         <Label text="Átváltási szorzó az alapértelmezett értékhez képest" wrapText="true">
                                             <VBox.margin>
                                                 <Insets bottom="5.0" />
                                             </VBox.margin>
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
                                         </Label>
-                                        <TextField fx:id="unitChangeMultiplierInputField" />
-                                        <Label text="*: Kötelező mező">
+                                        <TextField fx:id="unitChangeMultiplierInputField" prefHeight="30.0">
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin></TextField>
+                                        <Label text=": Kötelező mező">
                                             <VBox.margin>
-                                                <Insets top="40.0" />
+                                                <Insets top="60.0" />
                                             </VBox.margin>
+                                 <graphic>
+                                    <Label text="*" textFill="RED">
+                                       <font>
+                                          <Font name="System Bold" size="18.0" />
+                                       </font>
+                                    </Label>
+                                 </graphic>
                                         </Label>
                                     </children>
                                 </VBox>
                             </content>
                             <padding>
-                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                <Insets bottom="20.0" left="88.0" right="88.0" top="100.0" />
                             </padding>
                         </ScrollPane>
                     </center>
@@ -97,7 +134,7 @@
                     <bottom>
                         <HBox alignment="CENTER" fillHeight="false" prefHeight="36.0" prefWidth="296.0" BorderPane.alignment="TOP_LEFT">
                             <children>
-                                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Törlés" textAlignment="CENTER">
+                                <Button fx:id="unitDeleteButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#deleteUnit" prefHeight="30.0" prefWidth="100.0" text="Törlés" textAlignment="CENTER">
                                     <opaqueInsets>
                                         <Insets />
                                     </opaqueInsets>
@@ -105,7 +142,7 @@
                                         <Insets right="20.0" />
                                     </HBox.margin>
                                 </Button>
-                                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Módosítás" textAlignment="CENTER">
+                                <Button fx:id="unitModifyButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#modifyUnit" prefHeight="30.0" prefWidth="100.0" text="Módosítás" textAlignment="CENTER">
                                     <HBox.margin>
                                         <Insets left="20.0" />
                                     </HBox.margin>

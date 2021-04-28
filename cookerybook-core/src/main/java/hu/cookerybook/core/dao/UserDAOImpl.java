@@ -1,6 +1,7 @@
 package hu.cookerybook.core.dao;
 
 import hu.cookerybook.core.dbconn.DatabaseFunctions;
+import hu.cookerybook.core.dbconn.PreparedStatementParameter;
 import hu.cookerybook.core.model.User;
 import hu.cookerybook.core.security.Security;
 
@@ -19,31 +20,39 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public void addUser(User user) throws NoSuchAlgorithmException, InvalidKeySpecException {
         String queryString = "INSERT INTO users (user_role, username, email, password, first_name, last_name, register_date, updated_at) " +
-                "VALUES(" + user.getUserRole() + ", " +
-                "'" + user.getUsername() + "', " +
-                "'" + user.getEmail() + "', " +
-                "'" + Security.generatePasswordHash(user.getPassword()) + "', " +
-                "'" + user.getFirstName() + "', " +
-                "'" + user.getLastName() + "', " +
+                "VALUES(?, ?, ?, ?, ?, ?, " +
                 "'" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "', " +
                 "'" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "');";
-        new DatabaseFunctions().setDataInDatabase(queryString);
+        List<PreparedStatementParameter> parameters = new ArrayList<>();
+
+        parameters.add(new PreparedStatementParameter(1, "int", user.getUserRole()));
+        parameters.add(new PreparedStatementParameter(2, "string", user.getUsername()));
+        parameters.add(new PreparedStatementParameter(3, "string", user.getEmail()));
+        parameters.add(new PreparedStatementParameter(4, "string", Security.generatePasswordHash(user.getPassword())));
+        parameters.add(new PreparedStatementParameter(5, "string", user.getFirstName()));
+        parameters.add(new PreparedStatementParameter(6, "string", user.getLastName()));
+        new DatabaseFunctions().setDataInDatabase(queryString, parameters);
     }
 
     @Override
     public void removeUser(User user) {
         String queryString = "DELETE FROM users " +
-                "WHERE id=" + user.getId() + " OR " +
-                "username='" + user.getUsername() + "' AND " +
-                "email='" + user.getEmail() + "'";
-        new DatabaseFunctions().setDataInDatabase(queryString);
+                "WHERE id = ? OR " +
+                "username = ? AND " +
+                "email = ?";
+        List<PreparedStatementParameter> parameters = new ArrayList<>();
+
+        parameters.add(new PreparedStatementParameter(1, "int", user.getId()));
+        parameters.add(new PreparedStatementParameter(2, "string", user.getUsername()));
+        parameters.add(new PreparedStatementParameter(3, "string", user.getEmail()));
+        new DatabaseFunctions().setDataInDatabase(queryString, parameters);
     }
 
     @Override
     public List<User> getAllUsers() {
         List<User> result = new ArrayList<>();
         String queryString = "SELECT * FROM users";
-        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabaseStat(queryString);
 
         for (String[] row : resultSet) {
             User u = new User();
@@ -68,8 +77,11 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User getUserById(int id) {
         User result = new User();
-        String queryString = "SELECT * FROM users WHERE id=" + id;
-        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
+        String queryString = "SELECT * FROM users WHERE id = ?";
+        List<PreparedStatementParameter> parameters = new ArrayList<>();
+
+        parameters.add(new PreparedStatementParameter(1, "int", id));
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabasePrepStat(queryString, parameters);
         String[] row = resultSet.get(0);
 
         try {
@@ -91,8 +103,11 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User getUserByUsername(String username) {
         User result = new User();
-        String queryString = "SELECT * FROM users WHERE username='" + username + "'";
-        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
+        String queryString = "SELECT * FROM users WHERE username = ?";
+        List<PreparedStatementParameter> parameters = new ArrayList<>();
+
+        parameters.add(new PreparedStatementParameter(1, "string", username));
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabasePrepStat(queryString, parameters);
         String[] row = resultSet.get(0);
 
         try {
@@ -114,8 +129,11 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User getUserByEmail(String email) {
         User result = new User();
-        String queryString = "SELECT * FROM users WHERE email='" + email + "'";
-        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
+        String queryString = "SELECT * FROM users WHERE email = ?";
+        List<PreparedStatementParameter> parameters = new ArrayList<>();
+
+        parameters.add(new PreparedStatementParameter(1, "string", email));
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabasePrepStat(queryString, parameters);
         String[] row = resultSet.get(0);
 
         try {
@@ -137,8 +155,12 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User getUserByUsernameOrEmail(String usernameOrEmail) {
         User result = new User();
-        String queryString = "SELECT * FROM users WHERE username='" + usernameOrEmail + "' OR email='" + usernameOrEmail + "'";
-        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
+        String queryString = "SELECT * FROM users WHERE username = ? OR email = ?";
+        List<PreparedStatementParameter> parameters = new ArrayList<>();
+
+        parameters.add(new PreparedStatementParameter(1, "string", usernameOrEmail));
+        parameters.add(new PreparedStatementParameter(2, "string", usernameOrEmail));
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabasePrepStat(queryString, parameters);
         String[] row = resultSet.get(0);
 
         try {
@@ -160,22 +182,33 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public void updateUser(User user) {
         String queryString = "UPDATE users SET " +
-                "user_role=" + user.getUserRole() + ", " +
-                "username='" + user.getUsername() + "', " +
-                "email='" + user.getEmail() + "', " +
-                "password='" + user.getPassword() + "', " +
-                "first_name='" + user.getFirstName() + "', " +
-                "last_name='" + user.getLastName() + "', " +
-                "updated_at='" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "' " +
-                "WHERE id=" + user.getId();
-        new DatabaseFunctions().setDataInDatabase(queryString);
+                "user_role = ?, " +
+                "username = ?, " +
+                "email = ?, " +
+                "first_name = ?, " +
+                "last_name = ?, " +
+                "updated_at = '" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "' " +
+                "WHERE id = ?";
+        List<PreparedStatementParameter> parameters = new ArrayList<>();
+
+        parameters.add(new PreparedStatementParameter(1, "int", user.getUserRole()));
+        parameters.add(new PreparedStatementParameter(2, "string", user.getUsername()));
+        parameters.add(new PreparedStatementParameter(3, "string", user.getEmail()));
+        parameters.add(new PreparedStatementParameter(4, "string", user.getFirstName()));
+        parameters.add(new PreparedStatementParameter(5, "string", user.getLastName()));
+        parameters.add(new PreparedStatementParameter(6, "int", user.getId()));
+        new DatabaseFunctions().setDataInDatabase(queryString, parameters);
     }
 
-    public void updateUserPassword(User user) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public void updateUserPassword(User user, String newPassword) throws NoSuchAlgorithmException, InvalidKeySpecException {
         String queryString = "UPDATE users SET " +
-                "password='" + Security.generatePasswordHash(user.getPassword()) + "' " +
-                "WHERE id=" + user.getId();
-        new DatabaseFunctions().setDataInDatabase(queryString);
+                "password = ? " +
+                "WHERE id = ?";
+        List<PreparedStatementParameter> parameters = new ArrayList<>();
+
+        parameters.add(new PreparedStatementParameter(1, "string", Security.generatePasswordHash(newPassword)));
+        parameters.add(new PreparedStatementParameter(2, "int", user.getId()));
+        new DatabaseFunctions().setDataInDatabase(queryString, parameters);
     }
 
 }

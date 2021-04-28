@@ -1,14 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="hu.cookerybook.desktop.controller.UnitModifyController"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hu.cookerybook.desktop.controller.UnitModifyController">
+   <top>
+      <AnchorPane prefHeight="50.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label fx:id="unitNameLabel" text="Mértékegység" textFill="#30bf00">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label text=" módosítása">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </top>
+   <bottom>
+      <AnchorPane prefHeight="50.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Button mnemonicParsing="false" prefHeight="40.0" text="Módosítások mentése">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" prefHeight="40.0" text="Mégsem" />
+               </children></HBox>
+         </children>
+      </AnchorPane>
+   </bottom>
+   <center>
+      <ScrollPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <content>
+          <AnchorPane prefHeight="618.0" prefWidth="1198.0">
+               <children>
+                  <VBox alignment="CENTER_LEFT" maxWidth="400.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="399.0" AnchorPane.rightAnchor="399.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Label text="Mértékegység megnevezése">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <graphic>
+                              <Label text="*" textFill="RED">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                           </graphic>
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="unitNameInputField" prefHeight="30.0">
+                           <VBox.margin>
+                              <Insets bottom="20.0" />
+                           </VBox.margin></TextField>
+                        <Label text="Rövid megnevezés">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <graphic>
+                              <Label text="*" textFill="RED">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                           </graphic>
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="unitShortNameInputField" prefHeight="30.0">
+                           <VBox.margin>
+                              <Insets bottom="20.0" />
+                           </VBox.margin></TextField>
+                        <Label text="Szülő mértékegység">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </Label>
+                        <ComboBox fx:id="unitDefaultParentUnitSelect" prefHeight="30.0" prefWidth="400.0">
+                           <VBox.margin>
+                              <Insets bottom="20.0" />
+                           </VBox.margin></ComboBox>
+                        <Label text="Átváltási szorzó a szülő értékéhez képest">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="unitChangeMultiplierInputField" prefHeight="30.0">
+                           <VBox.margin>
+                              <Insets bottom="20.0" />
+                           </VBox.margin></TextField>
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="100.0" top="100.0" />
+               </padding>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+   </center>
+</BorderPane>

@@ -1,9 +1,8 @@
 package hu.cookerybook.core.dao;
 
 import hu.cookerybook.core.dbconn.DatabaseFunctions;
+import hu.cookerybook.core.dbconn.PreparedStatementParameter;
 import hu.cookerybook.core.model.Recipe;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -16,31 +15,37 @@ public class RecipeDAOImpl implements RecipeDAO {
 
     @Override
     public void addRecipe(Recipe recipe) {
-        String queryString = "INSERT INTO users (name, photo, directions, difficulty, time_to_cook, servings, category, created_by) " +
-                "VALUES('" + recipe.getName() + "', " +
-                "'" + recipe.getPhoto() + "', " +
-                "'" + recipe.getDirections() + "', " +
-                recipe.getDifficulty() + ", " +
-                recipe.getTimeToCook() + ", " +
-                recipe.getServings() + ", " +
-                "'" + recipe.getCategory() + "', " +
-                recipe.getServings() + ", " +
+        String queryString = "INSERT INTO users (name, photo, directions, difficulty, time_to_cook, servings, category, created_by, created_at, updated_at) " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, " +
                 "'" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "', " +
                 "'" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "');";
-        new DatabaseFunctions().setDataInDatabase(queryString);
+        List<PreparedStatementParameter> parameters = new ArrayList<>();
+
+        parameters.add(new PreparedStatementParameter(1, "string", recipe.getName()));
+        parameters.add(new PreparedStatementParameter(2, "string", recipe.getPhoto()));
+        parameters.add(new PreparedStatementParameter(3, "string", recipe.getDirections()));
+        parameters.add(new PreparedStatementParameter(4, "int", recipe.getDifficulty()));
+        parameters.add(new PreparedStatementParameter(5, "int", recipe.getTimeToCook()));
+        parameters.add(new PreparedStatementParameter(6, "int", recipe.getServings()));
+        parameters.add(new PreparedStatementParameter(7, "string", recipe.getCategory()));
+        parameters.add(new PreparedStatementParameter(8, "int", recipe.getCreatedById()));
+        new DatabaseFunctions().setDataInDatabase(queryString, parameters);
     }
 
     @Override
     public void removeRecipe(Recipe recipe) {
-        String queryString = "DELETE FROM recipes WHERE id=" + recipe.getId();
-        new DatabaseFunctions().setDataInDatabase(queryString);
+        String queryString = "DELETE FROM recipes WHERE id = ?";
+        List<PreparedStatementParameter> parameters = new ArrayList<>();
+
+        parameters.add(new PreparedStatementParameter(1, "int", recipe.getId()));
+        new DatabaseFunctions().setDataInDatabase(queryString, parameters);
     }
 
     @Override
     public List<Recipe> getAllRecipes() {
         List<Recipe> result = new ArrayList<>();
         String queryString = "SELECT * FROM recipes";
-        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabaseStat(queryString);
 
         for (String[] row : resultSet) {
             Recipe r = new Recipe();
@@ -62,7 +67,10 @@ public class RecipeDAOImpl implements RecipeDAO {
     @Override
     public Recipe getRecipe(int id) {
         String queryString = "SELECT * FROM recipes WHERE id=" + id;
-        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabase(queryString);
+        List<PreparedStatementParameter> parameters = new ArrayList<>();
+
+        parameters.add(new PreparedStatementParameter(1, "int", id));
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabasePrepStat(queryString, parameters);
         String[] row = resultSet.get(0);
 
         Recipe r = new Recipe();
@@ -82,17 +90,28 @@ public class RecipeDAOImpl implements RecipeDAO {
     @Override
     public void updateRecipe(Recipe recipe) {
         String queryString = "UPDATE users SET " +
-                "name='" + recipe.getName() + "', " +
-                "photo='" + recipe.getPhoto() + "', " +
-                "directions='" + recipe.getDirections() + "', " +
-                "difficulty=" + recipe.getDifficulty() + ", " +
-                "time_to_cook=" + recipe.getTimeToCook() + ", " +
-                "servings=" + recipe.getServings() + ", " +
-                "category='" + recipe.getCategory() + "', " +
-                "created_by=" + recipe.getServings() + " " +
-                "updated_at='" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "' " +
-                "WHERE id=" + recipe.getId();
-        new DatabaseFunctions().setDataInDatabase(queryString);
+                "name = ?, " +
+                "photo = ?, " +
+                "directions = ?, " +
+                "difficulty = ?, " +
+                "time_to_cook = ?, " +
+                "servings = ?, " +
+                "category = ?, " +
+                "created_by = ?, " +
+                "updated_at = '" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "' " +
+                "WHERE id = ?;" + recipe.getId();
+        List<PreparedStatementParameter> parameters = new ArrayList<>();
+
+        parameters.add(new PreparedStatementParameter(1, "string", recipe.getName()));
+        parameters.add(new PreparedStatementParameter(2, "string", recipe.getPhoto()));
+        parameters.add(new PreparedStatementParameter(3, "string", recipe.getDirections()));
+        parameters.add(new PreparedStatementParameter(4, "int", recipe.getDifficulty()));
+        parameters.add(new PreparedStatementParameter(5, "int", recipe.getTimeToCook()));
+        parameters.add(new PreparedStatementParameter(6, "int", recipe.getServings()));
+        parameters.add(new PreparedStatementParameter(7, "string", recipe.getCategory()));
+        parameters.add(new PreparedStatementParameter(8, "int", recipe.getCreatedById()));
+        parameters.add(new PreparedStatementParameter(9, "int", recipe.getId()));
+        new DatabaseFunctions().setDataInDatabase(queryString, parameters);
     }
 
 }

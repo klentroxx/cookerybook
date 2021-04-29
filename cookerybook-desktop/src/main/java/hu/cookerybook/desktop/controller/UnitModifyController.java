@@ -34,13 +34,17 @@ public class UnitModifyController implements Initializable {
 
     public void initializePage() {
         UnitDAO unitDAO = new UnitDAOImpl();
-        Unit parentUnit = unitDAO.getUnit(this.unitToBeModified.getDefaultUnitId());
-
+        Unit parentUnit = null;
+        try {
+            parentUnit = unitDAO.getUnit(this.unitToBeModified.getDefaultUnitId());
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("A mertekegysegnek nincs szuloje.");
+        }
         this.unitNameLabel.setText(this.unitToBeModified.toString());
         this.unitNameInputField.setText(this.unitToBeModified.getName());
         this.unitShortNameInputField.setText(this.unitToBeModified.getShortName());
-        this.unitDefaultParentUnitSelect.getSelectionModel().select(parentUnit);
-        this.unitChangeMultiplierInputField.setText(Float.toString(this.unitToBeModified.getUnitChange()));
+        if (parentUnit != null) this.unitDefaultParentUnitSelect.getSelectionModel().select(parentUnit);
+        if (this.unitToBeModified.getUnitChange() != (float) 0) this.unitChangeMultiplierInputField.setText(Float.toString(this.unitToBeModified.getUnitChange()));
     }
 
     private void loadDefaultUnitSelect() {

@@ -3,7 +3,6 @@ package hu.cookerybook.desktop.controller;
 import hu.cookerybook.core.dao.UnitDAO;
 import hu.cookerybook.core.dao.UnitDAOImpl;
 import hu.cookerybook.core.model.Unit;
-import hu.cookerybook.desktop.Desktop;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,8 +10,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.util.Callback;
 
-import javax.swing.*;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,23 +22,25 @@ public class UnitModifyController implements Initializable {
     @FXML private TextField unitShortNameInputField;
     @FXML private ComboBox<Unit> unitDefaultParentUnitSelect;
     @FXML private TextField unitChangeMultiplierInputField;
-    Unit unitToBeModified;
+    private Unit unitToBeModified;
 
-    UnitModifyController() {
+    public UnitModifyController() {
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadDefaultUnitSelect();
-        initializePage();
     }
 
     public void initializePage() {
-        unitNameLabel.setText(this.unitToBeModified.toString());
-        unitNameInputField.setText(unitToBeModified.getName());
-        unitShortNameInputField.setText(unitToBeModified.getShortName());
+        UnitDAO unitDAO = new UnitDAOImpl();
+        Unit parentUnit = unitDAO.getUnit(this.unitToBeModified.getDefaultUnitId());
 
-        unitChangeMultiplierInputField.setText(Float.toString(unitToBeModified.getUnitChange()));
+        this.unitNameLabel.setText(this.unitToBeModified.toString());
+        this.unitNameInputField.setText(this.unitToBeModified.getName());
+        this.unitShortNameInputField.setText(this.unitToBeModified.getShortName());
+        this.unitDefaultParentUnitSelect.getSelectionModel().select(parentUnit);
+        this.unitChangeMultiplierInputField.setText(Float.toString(this.unitToBeModified.getUnitChange()));
     }
 
     private void loadDefaultUnitSelect() {
@@ -71,6 +70,7 @@ public class UnitModifyController implements Initializable {
 
     public void initializeData(Unit unit) {
         this.unitToBeModified = unit;
+        initializePage();
     }
 
 }

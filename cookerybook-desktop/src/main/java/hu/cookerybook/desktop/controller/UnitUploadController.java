@@ -3,16 +3,15 @@ package hu.cookerybook.desktop.controller;
 import hu.cookerybook.core.dao.UnitDAO;
 import hu.cookerybook.core.dao.UnitDAOImpl;
 import hu.cookerybook.core.model.Unit;
-import hu.cookerybook.desktop.Desktop;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -21,6 +20,8 @@ import java.util.*;
 
 public class UnitUploadController implements Initializable {
 
+    @FXML private Button unitDeleteButton;
+    @FXML private Button unitModifyButton;
     @FXML private TextField unitNameInputField;
     @FXML private TextField unitShortNameInputField;
     @FXML private TextField unitChangeMultiplierInputField;
@@ -36,6 +37,7 @@ public class UnitUploadController implements Initializable {
         loadUnitList();
         loadDefaultUnitSelect();
         setMultiplierFieldToFloat();
+        initializeButtons();
     }
 
     private void loadUnitList() {
@@ -94,7 +96,6 @@ public class UnitUploadController implements Initializable {
     public void modifyUnit() {
         Unit selectedItem = unitList.getSelectionModel().getSelectedItem();
         openModifyWindow(selectedItem);
-        System.out.println(selectedItem);
     }
 
     public void deleteUnit(ActionEvent actionEvent) {
@@ -111,22 +112,27 @@ public class UnitUploadController implements Initializable {
 
     public Stage openModifyWindow(Unit unit) {
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("unit_modify.fxml")
+                getClass().getResource("/hu/cookerybook/desktop/unit_modify.fxml")
         );
 
-        Stage stage = new Stage(StageStyle.DECORATED);
+        Stage stage = new Stage();
         try {
-            stage.setScene(loader.load());
+            stage.setScene(new Scene(loader.load()));
         } catch (IOException e) {
             e.printStackTrace();
         }
+        UnitModifyController unitModifyController = loader.getController();
+        unitModifyController.initializeData(unit);
 
-        UnitModifyController umc = new UnitModifyController();
-        umc.initializeData(unit);
-
+        stage.setTitle("Mértékegység módosítása");
         stage.show();
 
         return stage;
+    }
+
+    private void initializeButtons() {
+        unitDeleteButton.disableProperty().bind(unitList.getSelectionModel().selectedItemProperty().isNull());
+        unitModifyButton.disableProperty().bind(unitList.getSelectionModel().selectedItemProperty().isNull());
     }
 
 

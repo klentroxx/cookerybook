@@ -3,15 +3,18 @@ package hu.cookerybook.desktop.controller;
 import hu.cookerybook.core.dao.UnitDAO;
 import hu.cookerybook.core.dao.UnitDAOImpl;
 import hu.cookerybook.core.model.Unit;
+import hu.cookerybook.desktop.popup.ConfirmationBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -89,8 +92,11 @@ public class UnitUploadController implements Initializable {
         unit.setUnitChange(unitChargeMulti);
 
         unitDAO.addUnit(unit);
-        loadDefaultUnitSelect();
-        loadUnitList();
+        reInitialize();
+        unitNameInputField.setText("");
+        unitShortNameInputField.setText("");
+        unitDefaultParentUnitSelect.getSelectionModel().clearSelection();
+        unitChangeMultiplierInputField.setText("");
     }
 
     public void modifyUnit() {
@@ -100,6 +106,14 @@ public class UnitUploadController implements Initializable {
 
     public void deleteUnit(ActionEvent actionEvent) {
         Unit selectedItem = unitList.getSelectionModel().getSelectedItem();
+        if (new ConfirmationBox().confirmProcess("Törlés megerősítése", "Biztosan törölni szeretné a mértékegységet?")) {
+            UnitDAO unitDAO = new UnitDAOImpl();
+            unitDAO.removeUnit(selectedItem);
+            System.out.println("Torolve");
+            reInitialize();
+        } else {
+            System.out.println("Megsem");
+        }
     }
 
     private void setMultiplierFieldToFloat() {
@@ -122,10 +136,17 @@ public class UnitUploadController implements Initializable {
             e.printStackTrace();
         }
         UnitModifyController unitModifyController = loader.getController();
-        unitModifyController.initializeData(unit);
+        unitModifyController.initializeData(unit, stage);
 
         stage.setTitle("Mértékegység módosítása");
         stage.show();
+
+        stage.setOnHidden(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent windowEvent) {
+                reInitialize();
+            }
+        });
 
         return stage;
     }
@@ -133,6 +154,11 @@ public class UnitUploadController implements Initializable {
     private void initializeButtons() {
         unitDeleteButton.disableProperty().bind(unitList.getSelectionModel().selectedItemProperty().isNull());
         unitModifyButton.disableProperty().bind(unitList.getSelectionModel().selectedItemProperty().isNull());
+    }
+
+    public void reInitialize() {
+        loadDefaultUnitSelect();
+        loadUnitList();
     }
 
 

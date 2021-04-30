@@ -31,12 +31,12 @@
          <children>
             <HBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="40.0" text="Módosítások mentése">
+                  <Button mnemonicParsing="false" prefHeight="40.0" text="Módosítások mentése" onAction="#saveModification">
                      <HBox.margin>
                         <Insets right="20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="40.0" text="Mégsem" />
+                  <Button mnemonicParsing="false" prefHeight="40.0" text="Mégsem" onAction="#cancel" />
                </children></HBox>
          </children>
       </AnchorPane>

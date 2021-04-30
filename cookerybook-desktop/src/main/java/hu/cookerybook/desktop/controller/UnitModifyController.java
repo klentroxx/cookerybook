@@ -5,9 +5,11 @@ import hu.cookerybook.core.dao.UnitDAOImpl;
 import hu.cookerybook.core.model.Unit;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.net.URL;
@@ -23,6 +25,7 @@ public class UnitModifyController implements Initializable {
     @FXML private ComboBox<Unit> unitDefaultParentUnitSelect;
     @FXML private TextField unitChangeMultiplierInputField;
     private Unit unitToBeModified;
+    private Stage stage;
 
     public UnitModifyController() {
     }
@@ -72,9 +75,44 @@ public class UnitModifyController implements Initializable {
         });
     }
 
-    public void initializeData(Unit unit) {
+    public void initializeData(Unit unit, Stage stage) {
         this.unitToBeModified = unit;
+        this.stage = stage;
         initializePage();
     }
 
+
+    @FXML private void saveModification(ActionEvent actionEvent) {
+        UnitDAO unitDAO = new UnitDAOImpl();
+        Unit modifiedUnit = new Unit();
+        String unitName = this.unitNameInputField.getText();
+        String unitShort = this.unitShortNameInputField.getText();
+        int unitParent;
+        float unitChange;
+
+        System.out.println("SelectedIndex: " + this.unitDefaultParentUnitSelect.getSelectionModel().getSelectedItem());
+        System.out.println("Multiplier nem üres: " + !this.unitChangeMultiplierInputField.getText().equals(""));
+
+        if (this.unitDefaultParentUnitSelect.getSelectionModel().getSelectedItem() != null && !this.unitChangeMultiplierInputField.getText().equals("")) {
+            unitParent = this.unitDefaultParentUnitSelect.getSelectionModel().getSelectedItem().getId();
+            unitChange = Float.parseFloat(this.unitChangeMultiplierInputField.getText());
+        } else {
+            unitParent = 0;
+            unitChange = 0;
+        }
+
+        modifiedUnit.setId(this.unitToBeModified.getId());
+        modifiedUnit.setName(unitName);
+        modifiedUnit.setShortName(unitShort);
+        modifiedUnit.setDefaultUnitId(unitParent);
+        modifiedUnit.setUnitChange(unitChange);
+
+        unitDAO.updateUnit(modifiedUnit);
+
+        stage.close();
+    }
+
+    @FXML private void cancel(ActionEvent actionEvent) {
+        stage.close();
+    }
 }

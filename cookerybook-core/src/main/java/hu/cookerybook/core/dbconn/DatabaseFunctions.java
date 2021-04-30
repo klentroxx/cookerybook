@@ -26,22 +26,15 @@ public class DatabaseFunctions {
         try {
             connection = DriverManager.getConnection(this.connectionURL);
             preparedStatement = connection.prepareStatement(query);
-            System.out.println(preparedStatement.getParameterMetaData());
             for (PreparedStatementParameter parameter : parameters) {
                 switch (parameter.getParameterType()) {
                     case "string":
-                        System.out.println(parameter.getParameterIndex());
-                        System.out.println(parameter.getStringData());
                         preparedStatement.setString(parameter.getParameterIndex(), parameter.getStringData());
                         break;
                     case "int":
-                        System.out.println(parameter.getParameterIndex());
-                        System.out.println(parameter.getIntegerData());
                         preparedStatement.setInt(parameter.getParameterIndex(), parameter.getIntegerData());
                         break;
                     case "float":
-                        System.out.println(parameter.getParameterIndex());
-                        System.out.println(parameter.getFloatData());
                         preparedStatement.setFloat(parameter.getParameterIndex(), parameter.getFloatData());
                         break;
                 }

@@ -35,7 +35,7 @@ public class LoginController {
             if (Security.validatePassword(passwordInputField.getText(), requestedUser.getPassword())) {
                 UserSession.getInstance(requestedUser.getUsername(), requestedUser.getUserRole());
                 try {
-                    Desktop.setRoot("primary");
+                    Desktop.setRoot("homepage");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

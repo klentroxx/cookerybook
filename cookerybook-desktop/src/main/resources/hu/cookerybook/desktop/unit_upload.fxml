@@ -150,17 +150,25 @@
                             </children>
                         </HBox>
                     </bottom>
-                    <top>
-                        <AnchorPane prefHeight="30.0" BorderPane.alignment="CENTER_LEFT">
-                            <children>
-                                <Label text="Feltöltött mértékegységek szerkesztése és törlése" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <top>
+                  <HBox prefHeight="30.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <children>
+                                <Label prefHeight="30.0" text="Feltöltött mértékegységek szerkesztése és törlése">
                                     <padding>
                                         <Insets bottom="2.0" left="10.0" right="10.0" top="2.0" />
                                     </padding>
                                 </Label>
-                            </children>
-                        </AnchorPane>
-                    </top>
+                        <Hyperlink alignment="CENTER_RIGHT" onAction="#backToHome" prefHeight="30.0" prefWidth="315.0" text="Vissza a főoldalra">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <padding>
+                              <Insets right="10.0" />
+                           </padding>
+                        </Hyperlink>
+                     </children>
+                  </HBox>
+               </top>
                 </BorderPane>
             </children>
         </AnchorPane>

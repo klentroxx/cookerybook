@@ -3,12 +3,14 @@ package hu.cookerybook.core.dao;
 import hu.cookerybook.core.dbconn.DatabaseFunctions;
 import hu.cookerybook.core.dbconn.PreparedStatementParameter;
 import hu.cookerybook.core.model.Ingredient;
+import hu.cookerybook.core.model.Unit;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static java.lang.Float.parseFloat;
 import static java.lang.Integer.parseInt;
 
 public class IngredientDAOImpl implements IngredientDAO {
@@ -71,8 +73,28 @@ public class IngredientDAOImpl implements IngredientDAO {
     }
 
     @Override
+    public Unit getUnitOfIngredient(Ingredient ingredient) {
+        String queryString = "SELECT * FROM units WHERE id = ?";
+        List<PreparedStatementParameter> parameters = new ArrayList<>();
+
+        parameters.add(new PreparedStatementParameter(1, "int", ingredient.getUnitId()));
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabasePrepStat(queryString, parameters);
+        String[] row = resultSet.get(0);
+
+        Unit u = new Unit();
+
+        u.setId(parseInt(row[0]));
+        u.setName(row[1]);
+        u.setShortName(row[2]);
+        u.setDefaultUnitId(parseInt(row[3]));
+        u.setUnitChange(parseFloat(row[4]));
+
+        return u;
+    }
+
+    @Override
     public void updateIngredient(Ingredient ingredient) {
-        String queryString = "INSERT INTO ingredients SET " +
+        String queryString = "UPDATE ingredients SET " +
                 "name = ?, " +
                 "unit_id = ?, " +
                 "updated_at = '" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "' " +

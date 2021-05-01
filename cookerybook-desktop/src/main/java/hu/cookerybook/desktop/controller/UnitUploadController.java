@@ -3,6 +3,7 @@ package hu.cookerybook.desktop.controller;
 import hu.cookerybook.core.dao.UnitDAO;
 import hu.cookerybook.core.dao.UnitDAOImpl;
 import hu.cookerybook.core.model.Unit;
+import hu.cookerybook.desktop.Desktop;
 import hu.cookerybook.desktop.popup.ConfirmationBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,6 +24,7 @@ import java.util.*;
 
 public class UnitUploadController implements Initializable {
 
+    @FXML private Button unitUploadButton;
     @FXML private Button unitDeleteButton;
     @FXML private Button unitModifyButton;
     @FXML private TextField unitNameInputField;
@@ -30,7 +32,6 @@ public class UnitUploadController implements Initializable {
     @FXML private TextField unitChangeMultiplierInputField;
     @FXML private ComboBox<Unit> unitDefaultParentUnitSelect;
     @FXML private ListView<Unit> unitList;
-    @FXML private Button unitUploadButton;
 
     public UnitUploadController() {
     }
@@ -124,7 +125,7 @@ public class UnitUploadController implements Initializable {
         });
     }
 
-    public Stage openModifyWindow(Unit unit) {
+    public void openModifyWindow(Unit unit) {
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/hu/cookerybook/desktop/unit_modify.fxml")
         );
@@ -147,11 +148,10 @@ public class UnitUploadController implements Initializable {
                 reInitialize();
             }
         });
-
-        return stage;
     }
 
     private void initializeButtons() {
+        unitUploadButton.disableProperty().bind((unitNameInputField.textProperty().isEmpty()).or(unitShortNameInputField.textProperty().isEmpty()));
         unitDeleteButton.disableProperty().bind(unitList.getSelectionModel().selectedItemProperty().isNull());
         unitModifyButton.disableProperty().bind(unitList.getSelectionModel().selectedItemProperty().isNull());
     }
@@ -162,4 +162,11 @@ public class UnitUploadController implements Initializable {
     }
 
 
+    public void backToHome(ActionEvent actionEvent) {
+        try {
+            Desktop.setRoot("homepage");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

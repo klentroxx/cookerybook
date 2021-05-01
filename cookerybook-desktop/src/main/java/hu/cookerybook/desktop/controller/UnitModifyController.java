@@ -90,9 +90,6 @@ public class UnitModifyController implements Initializable {
         int unitParent;
         float unitChange;
 
-        System.out.println("SelectedIndex: " + this.unitDefaultParentUnitSelect.getSelectionModel().getSelectedItem());
-        System.out.println("Multiplier nem üres: " + !this.unitChangeMultiplierInputField.getText().equals(""));
-
         if (this.unitDefaultParentUnitSelect.getSelectionModel().getSelectedItem() != null && !this.unitChangeMultiplierInputField.getText().equals("")) {
             unitParent = this.unitDefaultParentUnitSelect.getSelectionModel().getSelectedItem().getId();
             unitChange = Float.parseFloat(this.unitChangeMultiplierInputField.getText());

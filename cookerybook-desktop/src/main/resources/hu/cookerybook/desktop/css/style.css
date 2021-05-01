@@ -1,3 +1,25 @@
-Button {
-    -fx-color: red;
+Button:hover {
+    -fx-cursor: hand;
+}
+
+#nextToUnitsButton {
+    -fx-background-color: #fff700;
+    -fx-border-width: 2px;
+    -fx-border-style: solid;
+    -fx-border-color: #fff700;
+}
+
+#nextToUnitsButton:hover {
+    -fx-background-color: #ffffff;
+}
+
+#nextToIngredientsButton {
+    -fx-background-color: #00f7ff;
+    -fx-border-width: 2px;
+    -fx-border-style: solid;
+    -fx-border-color: #00f7ff;
+}
+
+#nextToIngredientsButton:hover {
+    -fx-background-color: #ffffff;
 }

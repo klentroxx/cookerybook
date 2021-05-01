@@ -91,7 +91,7 @@ public class RecipeOtherNameDAOImpl implements RecipeOtherNameDAO {
 
     @Override
     public void updateRecipeOtherName(RecipeOtherName recipeOtherName) {
-        String queryString = "INSERT INTO recipe_other_names SET " +
+        String queryString = "UPDATE recipe_other_names SET " +
                 "recipe_id = ?, " +
                 "recipe_name = ?, " +
                 "updated_at = '" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "' " +

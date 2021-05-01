@@ -118,7 +118,7 @@ public class MenuRecipeDAOImpl implements MenuRecipeDAO {
 
     @Override
     public void updateMenuRecipe(MenuRecipe menuRecipe) {
-        String queryString = "INSERT INTO menu_recipes SET " +
+        String queryString = "UPDATE menu_recipes SET " +
                 "menu_id = ?, " +
                 "recipe_id = ?, " +
                 "updated_at = '" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "' " +

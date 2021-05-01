@@ -68,7 +68,7 @@ public class UnitDAOImpl implements UnitDAO {
             u.setName(row[1]);
             u.setShortName(row[2]);
             u.setDefaultUnitId(parseInt(row[3]));
-            u.setUnitChange(parseInt(row[4]));
+            u.setUnitChange(parseFloat(row[4]));
             result.add(u);
         }
 
@@ -91,7 +91,7 @@ public class UnitDAOImpl implements UnitDAO {
             u.setName(row[1]);
             u.setShortName(row[2]);
             u.setDefaultUnitId(parseInt(row[3]));
-            u.setUnitChange(parseInt(row[4]));
+            u.setUnitChange(parseFloat(row[4]));
             result.add(u);
         }
 
@@ -113,7 +113,7 @@ public class UnitDAOImpl implements UnitDAO {
         u.setName(row[1]);
         u.setShortName(row[2]);
         u.setDefaultUnitId(parseInt(row[3]));
-        u.setUnitChange(parseInt(row[4]));
+        u.setUnitChange(parseFloat(row[4]));
 
         return u;
     }

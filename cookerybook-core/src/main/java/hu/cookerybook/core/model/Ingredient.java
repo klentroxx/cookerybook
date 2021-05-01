@@ -1,5 +1,6 @@
 package hu.cookerybook.core.model;
 
+import hu.cookerybook.core.dao.IngredientDAOImpl;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -79,10 +80,6 @@ public class Ingredient implements Serializable {
 
     @Override
     public String toString() {
-        return "Ingredients{" +
-                "id=" + getId() +
-                ", name='" + getName() + '\'' +
-                ", unitId=" + getUnitId() +
-                '}';
+        return getName() + " (" + new IngredientDAOImpl().getUnitOfIngredient(this).getName() + ")";
     }
 }

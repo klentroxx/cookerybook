@@ -153,7 +153,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public User getUserByUsernameOrEmail(String usernameOrEmail) {
+    public User getUserByUsernameOrEmail(String usernameOrEmail) throws IndexOutOfBoundsException {
         User result = new User();
         String queryString = "SELECT * FROM users WHERE username = ? OR email = ?";
         List<PreparedStatementParameter> parameters = new ArrayList<>();
@@ -177,6 +177,31 @@ public class UserDAOImpl implements UserDAO {
         }
 
         return result;
+    }
+
+    @Override
+    public User validateUser(String emailOrUsername, String password) {
+        User user = new User();
+        try {
+            user = getUserByUsernameOrEmail(emailOrUsername);
+        } catch (IndexOutOfBoundsException e) {
+            System.err.println("A felhasznalonev vagy e-mail cim hibas.");
+        }
+        if (user.getId() > 0) {
+            boolean isValidPass = false;
+            try {
+                isValidPass = Security.validatePassword(password, user.getPassword());
+            } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+                e.printStackTrace();
+            }
+            if (!isValidPass) {
+                user.setId(-2);
+            }
+            return user;
+        } else {
+            user.setId(-1);
+            return user;
+        }
     }
 
     @Override

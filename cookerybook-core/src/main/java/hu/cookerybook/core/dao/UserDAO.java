@@ -23,6 +23,8 @@ public interface UserDAO {
 
     User getUserByUsernameOrEmail(String usernameOrEmail);
 
+    User validateUser(String emailOrUsername, String password);
+
     void updateUser(User user);
 
 }

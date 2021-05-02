@@ -56,6 +56,23 @@ public class IngredientDAOImpl implements IngredientDAO {
     }
 
     @Override
+    public List<Ingredient> getAllIngredientsSortedByName() {
+        List<Ingredient> result = new ArrayList<>();
+        String queryString = "SELECT * FROM ingredients GROUP BY name";
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabaseStat(queryString);
+
+        for (String[] row : resultSet) {
+            Ingredient i = new Ingredient();
+            i.setId(parseInt(row[0]));
+            i.setName(row[1]);
+            i.setUnitId(parseInt(row[2]));
+            result.add(i);
+        }
+
+        return result;
+    }
+
+    @Override
     public Ingredient getIngredient(int id) {
         String queryString = "SELECT * FROM ingredients WHERE id = ?";
         List<PreparedStatementParameter> parameters = new ArrayList<>();
@@ -91,6 +108,29 @@ public class IngredientDAOImpl implements IngredientDAO {
 
         return u;
     }
+
+    @Override
+    public List<Unit> getAllUnitsOfIngredient(Ingredient ingredient) {
+        List<Unit> result = new ArrayList<>();
+        String queryString = "SELECT units.id, units.name, units.short_name, units.default_unit_id, units.unit_change FROM units LEFT JOIN ingredients i on units.id = i.unit_id WHERE i.name = ?";
+        List<PreparedStatementParameter> parameters = new ArrayList<>();
+
+        parameters.add(new PreparedStatementParameter(1, "string", ingredient.getName()));
+        List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabasePrepStat(queryString, parameters);
+
+        for (String[] row : resultSet) {
+            Unit u = new Unit();
+            u.setId(parseInt(row[0]));
+            u.setName(row[1]);
+            u.setShortName(row[2]);
+            u.setDefaultUnitId(parseInt(row[3]));
+            u.setUnitChange(parseFloat(row[4]));
+            result.add(u);
+        }
+
+        return result;
+    }
+
 
     @Override
     public void updateIngredient(Ingredient ingredient) {

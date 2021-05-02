@@ -13,9 +13,13 @@ public interface IngredientDAO {
 
     List<Ingredient> getAllIngredients();
 
+    List<Ingredient> getAllIngredientsSortedByName();
+
     Ingredient getIngredient(int id);
 
     Unit getUnitOfIngredient(Ingredient ingredient);
+
+    List<Unit> getAllUnitsOfIngredient(Ingredient ingredient);
 
     void updateIngredient(Ingredient ingredient);
     

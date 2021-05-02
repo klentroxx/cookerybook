@@ -1,0 +1,203 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+header {
+    width: 100%;
+    background: #AFAFAF;
+    height: 40px;
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+header nav {
+    height: 100%;
+    width: 90%;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+header .welcome-user {
+    width: 10%;
+    min-width: 200px;
+    font-size: 20px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 20px;
+}
+
+header nav ul {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+header nav ul li {
+    list-style: none;
+}
+
+header nav ul li a {
+    padding: 10px 20px;
+    font-size: 20px;
+    font-weight: 700;
+    color: black;
+}
+
+main {
+    padding-top: 50px;
+}
+
+main .content-wrap {
+    width: 1440px;
+    max-width: 90%;
+    margin: auto;
+}
+
+#new_recipe .form-container {
+    display: flex;
+    flex-flow: column nowrap;
+    width: 600px;
+    margin: 0 auto;
+}
+
+#new_recipe .form-container form .input-box {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+#new_recipe .form-container form .input-box label,
+#new_recipe .form-container form .input-box input,
+#new_recipe .form-container form .input-box textarea {
+    width: 100%;
+}
+
+#new_recipe .form-container form .input-box label {
+    margin-bottom: 5px;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+#new_recipe .form-container form .input-box input {
+    margin-bottom: 15px;
+}
+
+#new_recipe .form-container form .input-box input[type=range] {
+    margin-bottom: 0;
+}
+
+#new_recipe .form-container form .input-box textarea {
+    margin-bottom: 15px;
+}
+
+#new_recipe .form-container form .input-box .slider-values {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+#new_recipe .form-container form .input-box .slider-values span {
+    font-size: 12px;
+}
+
+#new_recipe .form-container form .table-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#new_recipe .form-container form table {
+    width: 100%;
+}
+
+#new_recipe .form-container form table caption {
+    text-align: left;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+#new_recipe .form-container form table thead tr th {
+    text-align: left;
+}
+
+#new_recipe .form-container form table tbody tr td {
+    padding: 10px 10px 10px 0;
+}
+
+#new_recipe .form-container form table tbody tr td select{
+    height: 30px;
+    padding: 0 10px;
+    min-width: 100%;
+}
+
+#new_recipe .form-container form table tbody tr td input{
+    width: 100%;
+}
+
+#new_recipe .form-container form table tbody tr td .delete-button {
+    background: #860000;
+    border: none;
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    height: 30px;
+    width: 30px;
+    border-radius: 8px;;
+}
+
+#new_recipe .form-container form table tbody tr td .delete-button:hover {
+    opacity: 0.7;
+}
+
+#new_recipe .form-container form .table-container a.add_row_button {
+    background: #74bf21;
+    padding: 10px 25px;
+    display: inline-flex;
+    margin-right: auto;
+    margin-left: auto;
+    font-weight: 700;
+    font-family: Arial, serif;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+#new_recipe .form-container form .table-container a.add_row_button:hover {
+    opacity: 0.8;
+}
+
+#new_recipe .form-container form input[type=submit] {
+    margin: auto;
+    display: flex;
+    justify-content: center;
+}
+
+
+
+
+span.required {
+    color: #FF0000;
+}
+
+form div.info {
+    margin: 50px 0;
+}
+input {
+    height: 30px;
+    width: 300px;
+}
+
+footer {
+    height: 100px;
+}

@@ -3,33 +3,85 @@ package hu.cookerybook.core.dao;
 import hu.cookerybook.core.dbconn.DatabaseFunctions;
 import hu.cookerybook.core.dbconn.PreparedStatementParameter;
 import hu.cookerybook.core.model.Recipe;
+import hu.cookerybook.core.model.RecipeOtherName;
+import hu.cookerybook.core.model.RequiredIngredient;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static java.lang.Integer.parseInt;
 
 public class RecipeDAOImpl implements RecipeDAO {
 
     @Override
-    public void addRecipe(Recipe recipe) {
-        String queryString = "INSERT INTO users (name, photo, directions, difficulty, time_to_cook, servings, category, created_by, created_at, updated_at) " +
+    public void addRecipe(Recipe recipe, List<RecipeOtherName> recipeOtherNames, List<RequiredIngredient> requiredIngredients) {
+        Map<String, List<PreparedStatementParameter>> transaction = new HashMap<>();
+        List<PreparedStatementParameter> recipeParameters = new ArrayList<>();
+
+        String queryString = "INSERT INTO recipes (name, photo, directions, difficulty, time_to_cook, servings, category, created_by, created_at, updated_at) " +
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, " +
                 "'" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "', " +
                 "'" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "');";
-        List<PreparedStatementParameter> parameters = new ArrayList<>();
 
-        parameters.add(new PreparedStatementParameter(1, "string", recipe.getName()));
-        parameters.add(new PreparedStatementParameter(2, "string", recipe.getPhoto()));
-        parameters.add(new PreparedStatementParameter(3, "string", recipe.getDirections()));
-        parameters.add(new PreparedStatementParameter(4, "int", recipe.getDifficulty()));
-        parameters.add(new PreparedStatementParameter(5, "int", recipe.getTimeToCook()));
-        parameters.add(new PreparedStatementParameter(6, "int", recipe.getServings()));
-        parameters.add(new PreparedStatementParameter(7, "string", recipe.getCategory()));
-        parameters.add(new PreparedStatementParameter(8, "int", recipe.getCreatedById()));
-        new DatabaseFunctions().setDataInDatabase(queryString, parameters);
+        recipeParameters.add(new PreparedStatementParameter(1, "string", recipe.getName()));
+        recipeParameters.add(new PreparedStatementParameter(2, "string", recipe.getPhoto()));
+        recipeParameters.add(new PreparedStatementParameter(3, "string", recipe.getDirections()));
+        recipeParameters.add(new PreparedStatementParameter(4, "int", recipe.getDifficulty()));
+        recipeParameters.add(new PreparedStatementParameter(5, "int", recipe.getTimeToCook()));
+        recipeParameters.add(new PreparedStatementParameter(6, "int", recipe.getServings()));
+        recipeParameters.add(new PreparedStatementParameter(7, "string", recipe.getCategory()));
+        recipeParameters.add(new PreparedStatementParameter(8, "int", recipe.getCreatedById()));
+
+        transaction.put(queryString, recipeParameters);
+
+        if (recipeOtherNames != null) {
+            StringBuilder otherNamesQuery = new StringBuilder();
+            List<PreparedStatementParameter> parameters = new ArrayList<>();
+            int index = 0;
+
+            for (RecipeOtherName ron : recipeOtherNames) {
+                otherNamesQuery.append("((SELECT MAX(recipes.id) FROM recipes), ?, ")
+                        .append("'").append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())).append("', ")
+                        .append("'").append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())).append("')");
+                if (index + 1 == recipeOtherNames.size()) {
+                    otherNamesQuery.append(";");
+                } else {
+                    otherNamesQuery.append(", ");
+                }
+                parameters.add(new PreparedStatementParameter(++index, "string", ron.getRecipeName()));
+            }
+
+            String finalQuery = "INSERT INTO recipe_other_names (recipe_id, recipe_name, created_at, updated_at) VALUES " + otherNamesQuery;
+
+            transaction.put(finalQuery, parameters);
+        }
+        if (requiredIngredients != null) {
+            StringBuilder requiredIngredientsQuery = new StringBuilder();
+            List<PreparedStatementParameter> parameters = new ArrayList<>();
+            int paramIndex = 0;
+            int loopIndex = 0;
+
+            for (RequiredIngredient ri : requiredIngredients) {
+                requiredIngredientsQuery.append("((SELECT MAX(recipes.id) FROM recipes), ?, ?, ")
+                        .append("'").append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())).append("', ")
+                        .append("'").append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())).append("')");
+                if (loopIndex + 1 == requiredIngredients.size()) {
+                    requiredIngredientsQuery.append(";");
+                } else {
+                    requiredIngredientsQuery.append(", ");
+                }
+                parameters.add(new PreparedStatementParameter(++paramIndex, "int", ri.getIngredientId()));
+                parameters.add(new PreparedStatementParameter(++paramIndex, "float", ri.getIngredientAmount()));
+                loopIndex++;
+            }
+
+            String finalQuery = "INSERT INTO required_ingredients (recipe_id, ingredient_id, ingredient_amount, created_at, updated_at) VALUES " + requiredIngredientsQuery;
+
+
+            transaction.put(finalQuery, parameters);
+        }
+
+        new DatabaseFunctions().setTransactionInDatabase(transaction);
     }
 
     @Override

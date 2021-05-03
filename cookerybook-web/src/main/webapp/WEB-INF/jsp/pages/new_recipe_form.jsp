@@ -12,6 +12,12 @@
 <main>
     <section id="new_recipe">
         <div class="content-wrap">
+            <% if (request.getSession().getAttribute("recipe_response") != null) {%>
+            <div class="response_message <% if(request.getSession().getAttribute("recipe_response").equals("A recept sikeresen feltöltve!")) {out.print("successful");}else {out.print("error");}%>">${recipe_response}</div>
+            <%
+            }
+                request.getSession().setAttribute("recipe_response", null);
+            %>
             <div class="form-container">
                 <form action="${pageContext.request.contextPath}/recept-feltoltes/feltolt" method="post" enctype="multipart/form-data">
                     <div class="input-box">

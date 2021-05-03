@@ -40,7 +40,7 @@ public class UnitDAOImpl implements UnitDAO {
     @Override
     public List<Unit> getAllUnits() {
         List<Unit> result = new ArrayList<>();
-        String queryString = "SELECT * FROM units";
+        String queryString = "SELECT * FROM units ORDER BY name ASC";
         List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabaseStat(queryString);
 
         for (String[] row : resultSet) {

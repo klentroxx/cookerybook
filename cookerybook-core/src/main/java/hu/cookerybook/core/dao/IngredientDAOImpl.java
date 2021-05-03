@@ -41,7 +41,7 @@ public class IngredientDAOImpl implements IngredientDAO {
     @Override
     public List<Ingredient> getAllIngredients() {
         List<Ingredient> result = new ArrayList<>();
-        String queryString = "SELECT * FROM ingredients";
+        String queryString = "SELECT * FROM ingredients ORDER BY name ASC";
         List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabaseStat(queryString);
 
         for (String[] row : resultSet) {
@@ -56,7 +56,7 @@ public class IngredientDAOImpl implements IngredientDAO {
     }
 
     @Override
-    public List<Ingredient> getAllIngredientsSortedByName() {
+    public List<Ingredient> getAllIngredientsGroupedByName() {
         List<Ingredient> result = new ArrayList<>();
         String queryString = "SELECT * FROM ingredients GROUP BY name";
         List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabaseStat(queryString);

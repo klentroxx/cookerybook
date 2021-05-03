@@ -13,7 +13,7 @@ public interface PantryDAO {
 
     List<PantryIngredient> getAllPantryIngredients();
 
-    List<PantryIngredient> getPantryIngredients(User user);
+    List<PantryIngredient> getPantryIngredients(int userId);
 
     PantryIngredient getPantryIngredient(int id);
 

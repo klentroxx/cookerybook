@@ -46,9 +46,9 @@ public class RequiredIngredientDAOImpl implements RequiredIngredientDAO {
         for (String[] row : resultSet) {
             RequiredIngredient ri = new RequiredIngredient();
             ri.setId(parseInt(row[0]));
-            ri.setRecipeId(parseInt(row[0]));
-            ri.setIngredientId(parseInt(row[0]));
-            ri.setIngredientAmount(parseFloat(row[0]));
+            ri.setRecipeId(parseInt(row[1]));
+            ri.setIngredientId(parseInt(row[2]));
+            ri.setIngredientAmount(parseFloat(row[3]));
             result.add(ri);
         }
 

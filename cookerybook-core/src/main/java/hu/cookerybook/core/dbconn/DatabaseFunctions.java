@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 public class DatabaseFunctions {
@@ -17,6 +18,49 @@ public class DatabaseFunctions {
             this.connectionURL = properties.getProperty("jdbc.jdbc-url");
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void setTransactionInDatabase(Map<String, List<PreparedStatementParameter>> transaction) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = DriverManager.getConnection(this.connectionURL);
+            connection.setAutoCommit(false);
+
+            for (Map.Entry<String, List<PreparedStatementParameter>> mapEntry : transaction.entrySet()) {
+                preparedStatement = connection.prepareStatement(mapEntry.getKey());
+                System.out.println(preparedStatement);
+                for (PreparedStatementParameter parameter : mapEntry.getValue()) {
+                    System.out.println(parameter.toString());
+                    switch (parameter.getParameterType()) {
+                        case "string":
+                            preparedStatement.setString(parameter.getParameterIndex(), parameter.getStringData());
+                            break;
+                        case "int":
+                            preparedStatement.setInt(parameter.getParameterIndex(), parameter.getIntegerData());
+                            break;
+                        case "float":
+                            preparedStatement.setFloat(parameter.getParameterIndex(), parameter.getFloatData());
+                            break;
+                    }
+                }
+                preparedStatement.executeUpdate();
+            }
+
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            if (connection != null) {
+                try {
+                    System.err.println("Transaction is being rolled back.");
+                    connection.rollback();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        } finally {
+            closeConnection(connection, preparedStatement);
         }
     }
 
@@ -58,7 +102,7 @@ public class DatabaseFunctions {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
-                String[] tmp = new String[9];
+                String[] tmp = new String[20];
                 for (int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++) {
                     tmp[i - 1] = resultSet.getString(i);
                 }

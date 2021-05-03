@@ -25,7 +25,7 @@ public class PantryDAOImpl implements PantryDAO {
 
         parameters.add(new PreparedStatementParameter(1, "int", pantryIngredient.getUserId()));
         parameters.add(new PreparedStatementParameter(2, "int", pantryIngredient.getIngredientId()));
-        parameters.add(new PreparedStatementParameter(3, "int", pantryIngredient.getIngredientQuantity()));
+        parameters.add(new PreparedStatementParameter(3, "float", pantryIngredient.getIngredientQuantity()));
         parameters.add(new PreparedStatementParameter(4, "float", pantryIngredient.getMinimumAmount()));
         new DatabaseFunctions().setDataInDatabase(queryString, parameters);
     }
@@ -50,7 +50,7 @@ public class PantryDAOImpl implements PantryDAO {
             pi.setId(parseInt(row[0]));
             pi.setUserId(parseInt(row[1]));
             pi.setIngredientId(parseInt(row[2]));
-            pi.setIngredientQuantity(parseInt(row[3]));
+            pi.setIngredientQuantity(parseFloat(row[3]));
             pi.setMinimumAmount(parseFloat(row[4]));
             result.add(pi);
         }
@@ -59,12 +59,12 @@ public class PantryDAOImpl implements PantryDAO {
     }
 
     @Override
-    public List<PantryIngredient> getPantryIngredients(User user) {
+    public List<PantryIngredient> getPantryIngredients(int userId) {
         List<PantryIngredient> result = new ArrayList<>();
         String queryString = "SELECT * FROM pantry WHERE user_id = ?";
         List<PreparedStatementParameter> parameters = new ArrayList<>();
 
-        parameters.add(new PreparedStatementParameter(1, "int", user.getId()));
+        parameters.add(new PreparedStatementParameter(1, "int", userId));
         List<String[]> resultSet = new DatabaseFunctions().getDataFromDatabasePrepStat(queryString, parameters);
 
         for (String[] row : resultSet) {
@@ -72,7 +72,7 @@ public class PantryDAOImpl implements PantryDAO {
             pi.setId(parseInt(row[0]));
             pi.setUserId(parseInt(row[1]));
             pi.setIngredientId(parseInt(row[2]));
-            pi.setIngredientQuantity(parseInt(row[3]));
+            pi.setIngredientQuantity(parseFloat(row[3]));
             pi.setMinimumAmount(parseFloat(row[4]));
             result.add(pi);
         }
@@ -93,7 +93,7 @@ public class PantryDAOImpl implements PantryDAO {
         pi.setId(parseInt(row[0]));
         pi.setUserId(parseInt(row[1]));
         pi.setIngredientId(parseInt(row[2]));
-        pi.setIngredientQuantity(parseInt(row[3]));
+        pi.setIngredientQuantity(parseFloat(row[3]));
         pi.setMinimumAmount(parseFloat(row[4]));
 
         return pi;
@@ -112,7 +112,7 @@ public class PantryDAOImpl implements PantryDAO {
 
         parameters.add(new PreparedStatementParameter(1, "int", pantryIngredient.getUserId()));
         parameters.add(new PreparedStatementParameter(2, "int", pantryIngredient.getIngredientId()));
-        parameters.add(new PreparedStatementParameter(3, "int", pantryIngredient.getIngredientQuantity()));
+        parameters.add(new PreparedStatementParameter(3, "float", pantryIngredient.getIngredientQuantity()));
         parameters.add(new PreparedStatementParameter(4, "float", pantryIngredient.getMinimumAmount()));
         parameters.add(new PreparedStatementParameter(5, "int", pantryIngredient.getId()));
         new DatabaseFunctions().setDataInDatabase(queryString, parameters);

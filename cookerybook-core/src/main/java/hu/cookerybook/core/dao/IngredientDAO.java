@@ -13,7 +13,7 @@ public interface IngredientDAO {
 
     List<Ingredient> getAllIngredients();
 
-    List<Ingredient> getAllIngredientsSortedByName();
+    List<Ingredient> getAllIngredientsGroupedByName();
 
     Ingredient getIngredient(int id);
 

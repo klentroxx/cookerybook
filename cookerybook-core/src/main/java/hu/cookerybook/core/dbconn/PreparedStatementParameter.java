@@ -46,4 +46,14 @@ public class PreparedStatementParameter {
         return floatData;
     }
 
+    @Override
+    public String toString() {
+        return "PreparedStatementParameter{" +
+                "parameterIndex=" + parameterIndex +
+                ", parameterType='" + parameterType + '\'' +
+                ", stringData='" + stringData + '\'' +
+                ", integerData=" + integerData +
+                ", floatData=" + floatData +
+                '}';
+    }
 }

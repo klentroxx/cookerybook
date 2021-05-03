@@ -12,33 +12,33 @@ public class PantryIngredient implements Serializable {
     private IntegerProperty id = new SimpleIntegerProperty(this, "id");
     private IntegerProperty userId = new SimpleIntegerProperty(this, "userId");
     private IntegerProperty ingredientId = new SimpleIntegerProperty(this, "ingredientId");
-    private IntegerProperty ingredientQuantity = new SimpleIntegerProperty(this, "ingredientQuantity");
+    private FloatProperty ingredientQuantity = new SimpleFloatProperty(this, "ingredientQuantity");
     private FloatProperty minimumAmount = new SimpleFloatProperty(this, "ingredientQuantity");
 
     public PantryIngredient() {
     }
 
-    public PantryIngredient(IntegerProperty userId, IntegerProperty ingredientId, IntegerProperty ingredientQuantity) {
+    public PantryIngredient(IntegerProperty userId, IntegerProperty ingredientId, FloatProperty ingredientQuantity) {
         this.userId = userId;
         this.ingredientId = ingredientId;
         this.ingredientQuantity = ingredientQuantity;
     }
 
-    public PantryIngredient(IntegerProperty userId, IntegerProperty ingredientId, IntegerProperty ingredientQuantity, FloatProperty minimumAmount) {
+    public PantryIngredient(IntegerProperty userId, IntegerProperty ingredientId, FloatProperty ingredientQuantity, FloatProperty minimumAmount) {
         this.userId = userId;
         this.ingredientId = ingredientId;
         this.ingredientQuantity = ingredientQuantity;
         this.minimumAmount = minimumAmount;
     }
 
-    public PantryIngredient(IntegerProperty id, IntegerProperty userId, IntegerProperty ingredientId, IntegerProperty ingredientQuantity) {
+    public PantryIngredient(IntegerProperty id, IntegerProperty userId, IntegerProperty ingredientId, FloatProperty ingredientQuantity) {
         this.id = id;
         this.userId = userId;
         this.ingredientId = ingredientId;
         this.ingredientQuantity = ingredientQuantity;
     }
 
-    public PantryIngredient(IntegerProperty id, IntegerProperty userId, IntegerProperty ingredientId, IntegerProperty ingredientQuantity, FloatProperty minimumAmount) {
+    public PantryIngredient(IntegerProperty id, IntegerProperty userId, IntegerProperty ingredientId, FloatProperty ingredientQuantity, FloatProperty minimumAmount) {
         this.id = id;
         this.userId = userId;
         this.ingredientId = ingredientId;
@@ -82,15 +82,15 @@ public class PantryIngredient implements Serializable {
         this.ingredientId.set(ingredientId);
     }
 
-    public int getIngredientQuantity() {
+    public float getIngredientQuantity() {
         return ingredientQuantity.get();
     }
 
-    public IntegerProperty ingredientQuantityProperty() {
+    public FloatProperty ingredientQuantityProperty() {
         return ingredientQuantity;
     }
 
-    public void setIngredientQuantity(int ingredientQuantity) {
+    public void setIngredientQuantity(float ingredientQuantity) {
         this.ingredientQuantity.set(ingredientQuantity);
     }
 

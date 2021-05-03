@@ -1,6 +1,3 @@
-<%@ page import="hu.cookerybook.web.controller.LoginController" %>
-<%@ page import="java.util.List" %>
-<%@ page import="hu.cookerybook.core.model.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
 if (session.getAttribute("user_username") != null) {
@@ -17,20 +14,21 @@ if (session.getAttribute("user_username") != null) {
 <main>
 <section class="login-section">
     <div class="content-wrap">
-        <form action="${pageContext.request.contextPath}/bejelentkezes" method="post">
-            <label for="email">E-mail</label>
-            <input type="text" id="email" name="email">
-            <label for="password">Jelszó</label>
-            <input type="password" id="password" name="password">
-            <input type="submit" name="submit" value="Bejelentkezés">
-        </form>
-        <%
-            LoginController lc = new LoginController();
-            List<User> users = lc.getUsers();
-            for (User user : users) {
-                out.print(user.getEmail());
-            }
-        %>
+        <div class="login-form-container">
+            <form action="${pageContext.request.contextPath}/bejelentkezes" method="post">
+                <div class="input-fields">
+                    <label for="email">E-mail vagy felhasználónév</label>
+                    <input type="text" id="email" name="email" placeholder="pl. email@example.com">
+                </div>
+                <div class="input-fields">
+                    <label for="password">Jelszó</label>
+                    <input type="password" id="password" name="password" placeholder="********">
+                </div>
+                <div class="input-fields">
+                    <input type="submit" name="submit" value="Bejelentkezés">
+                </div>
+            </form>
+        </div>
     </div>
 </section>
 </main>

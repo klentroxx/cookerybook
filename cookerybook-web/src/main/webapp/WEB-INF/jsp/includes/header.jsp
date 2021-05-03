@@ -9,10 +9,11 @@
             <% } %>
 
             <% if (session.getAttribute("user_uid") != null) { %>
-            <li><a href="<c:url value="/kijelentkezes"/>">Kijelentkezés</a></li>
-            <% if (session.getAttribute("user_user_role").equals(2) || session.getAttribute("user_user_role").equals(1)) {%>
+            <% if (session.getAttribute("user_user_role").equals(1) || session.getAttribute("user_user_role").equals(2)) {%>
             <li><a href="<c:url value="/recept-feltoltes"/>">Új recepet</a></li>
+            <li><a href="<c:url value="/spajz"/>">Spájz</a></li>
             <% } %>
+            <li><a href="<c:url value="/kijelentkezes"/>">Kijelentkezés</a></li>
             <% } %>
         </ul>
     </nav>
